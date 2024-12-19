@@ -8,10 +8,15 @@ class IndexController extends Controller
 {
     public function index()
     {
-        if (!session('username')) {
-            return redirect('/login')->with('error', 'Please login first.');
+        // Ambil data dari session
+        $username = session('username'); // Ambil nilai 'username' dari session
+
+        // Periksa apakah session 'username' tersedia
+        if (!$username) {
+            return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
-        $username = session('username');
+
+        // Kirim variabel ke view
         return view('index', compact('username'));
     }
 }

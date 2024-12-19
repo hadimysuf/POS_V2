@@ -10,9 +10,12 @@ class KasirCheck
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role_id == 2) {
-            return $next($request);
+        $role = session('role');
+
+        if ($role !== 'kasir') {
+            return redirect('/login')->with('error', 'Unauthorized access.');
         }
-        return redirect('/login')->with('error', 'Unauthorized access.');
+
+        return $next($request);
     }
 }

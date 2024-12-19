@@ -10,9 +10,12 @@ class AdminCheck
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role_id == 1) {
-            return $next($request);
+        $role = session('role');
+
+        if ($role !== 'admin') {
+            return redirect('/login')->with('error', 'Unauthorized access.');
         }
-        return redirect('/login')->with('error', 'Unauthorized access.');
+
+        return $next($request);
     }
 }
