@@ -14,13 +14,12 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
         $request->validate([
-            'username' => 'required',
-            'password' => 'required',
+            'username' => 'required|email', // Validasi menggunakan email
+            'password' => 'required',    // Validasi password
         ]);
 
-        // Cari pengguna berdasarkan username
+        // Cari pengguna berdasarkan email
         $user = User::where('username', $request->username)->first();
 
         // Cek apakah pengguna ditemukan dan password cocok
@@ -39,15 +38,12 @@ class AuthController extends Controller
             }
         }
 
-        return back()->with('error', 'Username atau password salah.');
+        return back()->with('error', 'Email atau password salah.');
     }
 
     public function logout()
     {
         session()->flush();
         return redirect('/login')->with('success', 'Logout berhasil!');
-
-        // // Setelah menyimpan session
-        // dd(session('username'), session('role'));
     }
 }

@@ -3,17 +3,22 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\IndexController;
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\KasirDashboardController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\KasirDashboardController;
 use App\Http\Controllers\TransactionHistoryController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Route::get('/register', [RegisterController::class, 'regis']);
+Route::get('/register', [RegisterController::class, 'regis'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
 // Rute admin
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
