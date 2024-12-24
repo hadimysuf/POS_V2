@@ -15,6 +15,8 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.1/dist/sweetalert2.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    @stack('styles')
     <style>
         body {
             background: linear-gradient(135deg, #1a1f25 0%, #2c3e50 100%);
