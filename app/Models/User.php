@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $table = 'user_pengguna'; // Nama tabel di database
+    protected $primaryKey = 'id_user'; // Kolom primary key jika berbeda dari 'id'
     protected $fillable = [
         'nama_user',
         'username',

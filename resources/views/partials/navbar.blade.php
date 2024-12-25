@@ -15,9 +15,7 @@
             <div class="nav-item dropdown profile-dropdown">
                 <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown"
                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="avatar me-2">
-                        <img src="" alt="Profile" class="rounded-circle" width="32" height="32">
-                    </div>
+                    <i class="fas fa-user"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                     <li>
@@ -34,15 +32,17 @@
                         <hr class="dropdown-divider">
                     </li>
                     <!-- Logout -->
-                    <li>
-                        @if (session('username'))
-                            <li class="nav-item">
-                                <a class="nav-link text-center  fw-bold" href="{{ route('logout') }}">Logout</a>
-                            </li>
-                        @else
-                            kosong
-                        @endif
-                    </li>
+                    @if (session('username'))
+                        <li>
+                            <a class="dropdown-item fw-bold text-center" href="{{ route('logout') }}">
+                                Logout
+                            </a>
+                        </li>
+                    @else
+                        <li>
+                            <span class="dropdown-item text-center text-muted">Kosong</span>
+                        </li>
+                    @endif
                 </ul>
             </div>
         </div>

@@ -6,9 +6,13 @@
         </h1>
     </div>
     <ul class="list-unstyled px-3">
-        <li><a class="text-decoration-none {{ Request::is('dashboard') ? 'active' : '' }}" href=" "><i class="fa-solid fa-house"></i> Dashboard</a></li>
-        <li><a class="text-decoration-none {{ Request::is('users*') ? 'active' : '' }}" href=""><i class="fa-solid fa-users"></i> Users</a></li>
-        <li><a class="text-decoration-none {{ Request::is('products*') ? 'active' : '' }}" href=""><i class="fa-solid fa-list-check"></i> Produk</a></li>
-        <li><a class="text-decoration-none {{ Request::is('transactions*') ? 'active' : '' }}" href=""><i class="fa-solid fa-box"></i> Transaksi</a></li>
+        <li><a class="text-decoration-none {{ Request::is('dashboard*') ? 'active' : '' }}"
+                href="{{ route('admin.dashboard') }}"><i class="fa-solid fa-house"></i> Dashboard</a></li>
+        <li><a class="text-decoration-none {{ Request::is('users*') ? 'active' : '' }}"
+                href="{{ route('users.index') }}"><i class="fa-solid fa-users"></i> Users</a></li>
+        <li><a class="text-decoration-none {{ Request::is('products*') ? 'active' : '' }}" href=""><i
+                    class="fa-solid fa-list-check"></i> Produk</a></li>
+        <li><a class="text-decoration-none {{ Request::is('transactions*') ? 'active' : '' }}"
+                href="{{ route('history.index') }}"><i class="fa-solid fa-box"></i> Transaksi</a></li>
     </ul>
 </div>

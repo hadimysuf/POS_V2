@@ -43,13 +43,13 @@ Route::get('/history', [TransactionHistoryController::class, 'index'])->name('hi
 // Route::get('/', [IndexController::class, 'index'])->middleware('AdminCheck');
 
 //Tabel Users
-// Route::get('/users', [UserController::class, 'index'])->name('users.index'); // Read
-// Route::get('/users', [UserController::class, 'index'])->name('users.index');
-// Route::get('/users/create', [UserController::class, 'create'])->name('users.create'); // Form Create
-// Route::post('/users', [UserController::class, 'store'])->name('users.store'); // Create
-// Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Form Edit
-// Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update'); // Update
-// Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete
+Route::get('/users', [UserController::class, 'index'])->name('users.index'); // Read
+Route::get('/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/users/create', [UserController::class, 'create'])->name('users.create'); // Form Create
+Route::post('/users', [UserController::class, 'store'])->name('users.store'); // Create
+Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Form Edit
+Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update'); // Update
+Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete
 
 
 /*
