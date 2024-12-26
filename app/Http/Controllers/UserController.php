@@ -21,12 +21,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_user' => 'required|string|max:255',
-            'username' => 'required|string|unique:user_pengguna,username|max:255',
-            'password' => 'required|string|min:8',
-            'role_id' => 'required|integer',
-            'nomor_handphone' => 'required|string|max:15',
-            'alamat' => 'required|string',
+            'nama_user' => 'required|string|max:100',
+            'username' => 'required|email|unique:user_pengguna,username',
+            'password' => 'required|string|min:6',
+            'role_id' => 'required|exists:role,id_role',
+            'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,12}$/',
+            'alamat' => 'required|string|regex:/^Jl\..*/',
         ]);
 
         User::create([
@@ -38,7 +38,7 @@ class UserController extends Controller
             'alamat' => $request->alamat,
         ]);
 
-        return redirect()->route('users.index')->with('success', 'User created successfully.');
+        return redirect()->route('users.create')->with('success', 'User created successfully.');
     }
     public function edit($id_user)
     {
@@ -52,14 +52,15 @@ class UserController extends Controller
         $request->validate([
             'nama_user' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:user_pengguna,username,' . $id_user . ',id_user',
-            'role_id' => 'required|integer',
-            'nomor_handphone' => 'required|string|max:15',
-            'alamat' => 'required|string',
+            'password' => 'required|string|min:6',
+            'role_id' => 'required|exists:role,id_role',
+            'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,12}$/',
+            'alamat' => 'required|string|regex:/^Jl\..*/',
         ]);
 
         $user->update($request->all());
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.edit')->with('success', 'User updated successfully.');
     }
     public function destroy($id_user)
     {
