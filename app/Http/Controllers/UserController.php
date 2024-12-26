@@ -25,14 +25,14 @@ class UserController extends Controller
             'username' => 'required|email|unique:user_pengguna,username',
             'password' => 'required|string|min:6',
             'role_id' => 'required|exists:role,id_role',
-            'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,12}$/',
+            'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,14}$/',
             'alamat' => 'required|string|regex:/^Jl\..*/',
         ]);
 
         User::create([
             'nama_user' => $request->nama_user,
             'username' => $request->username,
-            'password' => bcrypt($request->password),
+            'password' => $request->password,
             'role_id' => $request->role_id,
             'nomor_handphone' => $request->nomor_handphone,
             'alamat' => $request->alamat,
@@ -54,13 +54,13 @@ class UserController extends Controller
             'username' => 'required|string|max:255|unique:user_pengguna,username,' . $id_user . ',id_user',
             'password' => 'required|string|min:6',
             'role_id' => 'required|exists:role,id_role',
-            'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,12}$/',
+            'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,14}$/',
             'alamat' => 'required|string|regex:/^Jl\..*/',
         ]);
 
         $user->update($request->all());
 
-        return redirect()->route('users.edit')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
     public function destroy($id_user)
     {

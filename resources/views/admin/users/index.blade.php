@@ -12,6 +12,7 @@
                     <th>ID User</th>
                     <th>Nama User</th>
                     <th>Username</th>
+                    <th>Password</th>
                     <th>Role</th>
                     <th>Nomor Handphone</th>
                     <th>Alamat</th>
@@ -24,6 +25,7 @@
                         <td>{{ $user->id_user }}</td>
                         <td>{{ $user->nama_user }}</td>
                         <td>{{ $user->username }}</td>
+                        <td>{{ $user->password }}</td>
                         <td>{{ $user->role_id === 1 ? 'Admin' : 'Kasir' }}</td>
                         <td>{{ $user->nomor_handphone }}</td>
                         <td>{{ $user->alamat }}</td>
@@ -42,4 +44,23 @@
             </tbody>
         </table>
     </div>
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Success!',
+                    text: '{{ session('success') }}',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#00c6fb',
+                    background: '#1e2832',
+                    color: '#ffffff'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('users.index') }}";
+                    }
+                });
+            });
+        </script>
+    @endif
 @endsection
