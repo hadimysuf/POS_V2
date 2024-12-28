@@ -27,8 +27,8 @@
                     <td>{{ $product->harga }}</td>
                     <td>{{ $product->jumlah }}</td>
                     <td>
-                        <a href="{{ route('products.edit', $product->produk) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline">
+                        <a href="{{ route('produk.edit', $product) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('produk.destroy', $product) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus produk ini?')">Hapus</button>

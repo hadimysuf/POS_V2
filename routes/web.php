@@ -12,61 +12,43 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\KasirDashboardController;
 use App\Http\Controllers\TransactionHistoryController;
 
-
-//Login
+// Login Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
-//Register
-// Route::get('/register', [RegisterController::class, 'regis']);
+// Register Routes
 Route::get('/register', [RegisterController::class, 'regis'])->name('register');
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 
-// Rute admin
-Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
-    ->middleware('admin')
-    ->name('admin.dashboard');
+// Admin Routes
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/sales/create', [SalesController::class, 'create'])->name('sales.create');
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/history', [TransactionHistoryController::class, 'index'])->name('history.index');
+});
 
-// Rute kasir
-Route::get('/kasir/dashboard', [KasirDashboardController::class, 'index'])
-    ->middleware('kasir')
-    ->name('kasir.dashboard');
+// Kasir Routes
+Route::middleware('kasir')->group(function () {
+    Route::get('/kasir/dashboard', [KasirDashboardController::class, 'index'])->name('kasir.dashboard');
+});
 
-//admin
-Route::get('/sales/create', [SalesController::class, 'create'])->name('sales.create');
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/history', [TransactionHistoryController::class, 'index'])->name('history.index');
+// User Routes
+Route::prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('users.index'); // Read
+    Route::get('/create', [UserController::class, 'create'])->name('users.create'); // Form Create
+    Route::post('/', [UserController::class, 'store'])->name('users.store'); // Create
+    Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Form Edit
+    Route::put('/{id}', [UserController::class, 'update'])->name('users.update'); // Update
+    Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete
+});
 
-// Route::get('/', [IndexController::class, 'index'])->middleware('AdminCheck');
-
-//Tabel Users
-Route::get('/users', [UserController::class, 'index'])->name('users.index'); // Read
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('users.create'); // Form Create
-Route::post('/users', [UserController::class, 'store'])->name('users.store'); // Create
-Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Form Edit
-Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update'); // Update
-Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete
-
-// produk
+// Produk Routes
 Route::resource('produk', ProductController::class);
-Route::get('produk/{produk}/edit', [ProductController::class, 'edit'])->name('produk.edit');
 
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
+// Default Route
 Route::get('/', function () {
     return view('index');
 });

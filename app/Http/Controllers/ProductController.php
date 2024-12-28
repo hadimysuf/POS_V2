@@ -1,26 +1,22 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Models\Produk; // Gunakan model Produk, bukan Product
+use App\Models\Produk; // Pastikan nama model benar
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    // Menampilkan semua produk
     public function index()
     {
-        $products = Produk::all(); // Mengambil semua data produk
+        $products = Produk::all();
         return view('admin.products.index', compact('products'));
     }
 
-    // Menampilkan form tambah produk
     public function create()
     {
         return view('admin.products.create');
     }
 
-    // Menyimpan produk baru
     public function store(Request $request)
     {
         $request->validate([
@@ -30,19 +26,16 @@ class ProductController extends Controller
         ]);
 
         Produk::create($request->all());
-
-        return redirect()->route('products.index')
+        return redirect()->route('produk.index')
             ->with('success', 'Produk berhasil ditambahkan!');
     }
 
-    // Menampilkan form edit produk
-    public function edit(Produk $produk)
+    public function edit(Produk $produk) // Parameter binding
     {
         return view('admin.products.edit', compact('produk'));
     }
 
-    // Menyimpan perubahan produk
-    public function update(Request $request, $id)
+    public function update(Request $request, Produk $produk)
     {
         $request->validate([
             'nama_produk' => 'required',
@@ -50,20 +43,15 @@ class ProductController extends Controller
             'jumlah' => 'required|integer',
         ]);
 
-        $product = Produk::find($id);
-        $product->update($request->all());
-
-        return redirect()->route('admin.products.index')
+        $produk->update($request->all());
+        return redirect()->route('produk.index')
             ->with('success', 'Produk berhasil diperbarui!');
     }
 
-    // Menghapus produk
-    public function destroy($id)
+    public function destroy(Produk $produk)
     {
-        $produk = Produk::find($id);
         $produk->delete();
-
-        return redirect()->route('admin.products.index')
+        return redirect()->route('produk.index')
             ->with('success', 'Produk berhasil dihapus!');
     }
 }
