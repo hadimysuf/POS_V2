@@ -30,7 +30,7 @@
 
             {{-- Input Username --}}
             <div class="form-group">
-                <label>Username</label>
+                <label>Username/Email</label>
                 <input type="text" name="username" value="{{ old('username', $user->username) }}"
                     class="form-control @error('username') is-invalid @enderror" required>
                 @error('username')

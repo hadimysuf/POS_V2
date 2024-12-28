@@ -21,7 +21,7 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label>Username</label>
+                <label>Username/Email</label>
                 <input type="email" name="username" class="form-control @error('username') is-invalid @enderror" required>
                 @error('username')
                     <div class="invalid-feedback">{{ $message }}</div>

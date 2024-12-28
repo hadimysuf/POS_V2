@@ -11,7 +11,7 @@
                 <tr>
                     <th>ID User</th>
                     <th>Nama User</th>
-                    <th>Username</th>
+                    <th>Username/Email</th>
                     <th>Password</th>
                     <th>Role</th>
                     <th>Nomor Handphone</th>

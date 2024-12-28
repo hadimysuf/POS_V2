@@ -51,6 +51,10 @@ Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edi
 Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update'); // Update
 Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete
 
+// produk
+Route::resource('produk', ProductController::class);
+Route::get('produk/{produk}/edit', [ProductController::class, 'edit'])->name('produk.edit');
+
 
 /*
 |--------------------------------------------------------------------------

@@ -7,6 +7,7 @@
 
         <div class="d-flex gap-3 mt-4">
             <a href="{{ route('users.index') }}" class="btn btn-secondary">Manage Users</a>
+            
             <a href="{{ route('history.index') }}" class="btn btn-info">Transaction History</a>
         </div>
     </div>

@@ -1,17 +1,18 @@
+<?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Produk extends Model
 {
-use HasFactory;
+    use HasFactory;
 
-protected $table = 'produk';
-protected $fillable = ['nama_produk', 'harga', 'jumlah'];
+    // Nama tabel di database
+    protected $table = 'produk';
+    protected $primaryKey = 'id_produk'; // Kolom primary key jika berbeda dari 'id'
 
-public function transaksiDetails()
-{
-return $this->hasMany(TransaksiDetail::class, 'id_produk');
-}
+    // Kolom yang dapat diisi (fillable)
+    protected $fillable = ['nama_produk', 'harga', 'jumlah'];
 }
