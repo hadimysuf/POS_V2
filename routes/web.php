@@ -33,6 +33,10 @@ Route::middleware('admin')->group(function () {
 // Kasir Routes
 Route::middleware('kasir')->group(function () {
     Route::get('/kasir/dashboard', [KasirDashboardController::class, 'index'])->name('kasir.dashboard');
+    Route::post('/kasir/add-to-cart', [KasirDashboardController::class, 'addToCart'])->name('kasir.addToCart');
+    Route::post('/kasir/reset-cart', [KasirDashboardController::class, 'resetCart'])->name('kasir.resetCart');
+    Route::get('/kasir/print-receipt/{id}', [KasirDashboardController::class, 'printReceipt'])->name('kasir.printReceipt');
+    Route::post('/kasir/checkout', [KasirDashboardController::class, 'checkout'])->name('kasir.checkout');
 });
 
 // User Routes
@@ -47,6 +51,8 @@ Route::prefix('users')->group(function () {
 
 // Produk Routes
 Route::resource('produk', ProductController::class);
+
+
 
 // Default Route
 Route::get('/', function () {
