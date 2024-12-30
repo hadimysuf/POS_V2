@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\KasirDashboardController;
+use App\Http\Controllers\GudangDashboardController;
 use App\Http\Controllers\TransactionHistoryController;
 
 // Login Routes
@@ -48,6 +49,15 @@ Route::prefix('users')->group(function () {
     Route::put('/{id}', [UserController::class, 'update'])->name('users.update'); // Update
     Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete
 });
+
+// gudang route
+Route::middleware('gudang')->group(function () {
+    Route::get('/gudang/dashboard', [GudangDashboardController::class, 'index'])->name('gudang.dashboard');
+    Route::get('/gudang/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
+    Route::get('/gudang/transaksi', [GudangDashboardController::class, 'transaksi'])->name('gudang.transaksi');
+    Route::get('/gudang/notifikasi', [GudangDashboardController::class, 'notifikasi'])->name('gudang.notifikasi');
+});
+
 
 // Produk Routes
 Route::resource('produk', ProductController::class);
