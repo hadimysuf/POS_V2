@@ -12,20 +12,24 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>ID Produk</th>
                 <th>Nama Produk</th>
                 <th>Harga</th>
-                <th>Jumlah</th>
+                <th>Stok</th>
+                <th>Satuan</th>
+                <th>Kategori</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
             @foreach($products as $product)
                 <tr>
-                    <td>{{ $product->id }}</td>
+                    <td>{{ $product->id_produk }}</td>
                     <td>{{ $product->nama_produk }}</td>
-                    <td>{{ $product->harga }}</td>
-                    <td>{{ $product->jumlah }}</td>
+                    <td>Rp {{ number_format($product->harga, 0, ',', '.') }}</td>
+                    <td>{{ $product->stok }}</td>
+                    <td>{{ $product->satuan }}</td>
+                    <td>{{ $product->kategori ? $product->kategori->nama_kategori : '-' }}</td>
                     <td>
                         <a href="{{ route('produk.edit', $product) }}" class="btn btn-warning btn-sm">Edit</a>
                         <form action="{{ route('produk.destroy', $product) }}" method="POST" class="d-inline">

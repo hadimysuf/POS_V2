@@ -61,6 +61,7 @@ Route::middleware('gudang')->group(function () {
 
 // Produk Routes
 Route::resource('produk', ProductController::class);
+Route::get('/admin/products/create', [AdminDashboardController::class, 'create'])->name('admin.products.create');
 
 
 
