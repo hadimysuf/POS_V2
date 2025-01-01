@@ -12,6 +12,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\KasirDashboardController;
 use App\Http\Controllers\GudangDashboardController;
 use App\Http\Controllers\TransactionHistoryController;
+use App\Http\Controllers\PergudanganController;
 
 // Login Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -50,13 +51,17 @@ Route::prefix('users')->group(function () {
     Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy'); // Delete
 });
 
-// gudang route
+// Gudang Routes
 Route::middleware('gudang')->group(function () {
     Route::get('/gudang/dashboard', [GudangDashboardController::class, 'index'])->name('gudang.dashboard');
     Route::get('/gudang/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
-    Route::get('/gudang/transaksi', [GudangDashboardController::class, 'transaksi'])->name('gudang.transaksi');
+    Route::get('/gudang/transaksi/masuk', [GudangDashboardController::class, 'transaksiMasuk'])->name('gudang.transaksi.masuk');
+    Route::post('/gudang/transaksi/masuk', [GudangDashboardController::class, 'simpanTransaksiMasuk'])->name('gudang.transaksi.simpanMasuk');
     Route::get('/gudang/notifikasi', [GudangDashboardController::class, 'notifikasi'])->name('gudang.notifikasi');
+    Route::resource('pergudangan', PergudanganController::class);
 });
+
+
 
 
 // Produk Routes

@@ -24,17 +24,19 @@ class AuthController extends Controller
 
         // Cek apakah pengguna ditemukan dan password cocok
         if ($user && $user->password === $request->password) {
-            // Simpan data pengguna ke session
+            // Set session sesuai role
             session([
                 'username' => $user->username,
-                'role' => $user->role_id === 1 ? 'admin' : 'kasir', // Role berdasarkan role_id
+                'role' => $user->role_id === 1 ? 'admin' : ($user->role_id === 2 ? 'kasir' : 'pergudangan'),
             ]);
 
-            // Redirect sesuai dengan role
+            // Redirect ke halaman sesuai role
             if ($user->role_id === 1) {
                 return redirect('/admin/dashboard')->with('success', 'Login sebagai Admin berhasil!');
-            } else {
+            } elseif ($user->role_id === 2) {
                 return redirect('/kasir/dashboard')->with('success', 'Login sebagai Kasir berhasil!');
+            } elseif ($user->role_id === 4) {
+                return redirect('/gudang/dashboard')->with('success', 'Login sebagai Admin Gudang berhasil!');
             }
         }
 
