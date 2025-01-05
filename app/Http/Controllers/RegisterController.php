@@ -18,14 +18,14 @@ class RegisterController extends Controller
         // Validasi data input
         $request->validate([
             'nama_user' => 'required|string|max:100',
-            'username' => 'required|email|unique:user_pengguna,username',
+            'username' => 'required|email|unique:users,username',
             'password' => 'required|string|min:6',
             'role_id' => 'required|exists:role,id_role',
             'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,12}$/',
             'alamat' => 'required|string|regex:/^Jl\..*/',
         ]);
 
-        // Simpan data ke tabel user_pengguna
+        // Simpan data ke tabel users
         User::create([
             'nama_user' => $request->nama_user,
             'username' => $request->username,

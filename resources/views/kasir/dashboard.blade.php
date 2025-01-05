@@ -34,7 +34,6 @@
     }
 </style>
 
-
 <div class="container">
     <h1>Kasir</h1>
 
@@ -55,36 +54,50 @@
 
     <!-- Tampilkan Keranjang -->
     <h2>Keranjang</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nama Produk</th>
-                <th>Harga</th>
-                <th>Jumlah</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php $total = 0; @endphp
-            @if(session('cart'))
-                @foreach(session('cart') as $id => $item)
-                    <tr>
-                        <td>{{ $item['nama_produk'] }}</td>
-                        <td>Rp {{ number_format($item['harga'], 0, ',', '.') }}</td>
-                        <td>{{ $item['jumlah'] }}</td>
-                        <td>Rp {{ number_format($item['harga'] * $item['jumlah'], 0, ',', '.') }}</td>
-                    </tr>
-                    @php $total += $item['harga'] * $item['jumlah']; @endphp
-                @endforeach
-            @else
+    <form action="{{ route('kasir.updateCart') }}" method="POST">
+        @csrf
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td colspan="4" class="text-center">Keranjang kosong</td>
+                    <th>Nama Produk</th>
+                    <th>Harga</th>
+                    <th>Jumlah</th>
+                    <th>Total</th>
+                    <th>Aksi</th>
                 </tr>
-            @endif
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @php $total = 0; @endphp
+                @if(session('cart'))
+                    @foreach(session('cart') as $id => $item)
+                        <tr>
+                            <td>{{ $item['nama_produk'] }}</td>
+                            <td>Rp {{ number_format($item['harga'], 0, ',', '.') }}</td>
+                            <td>
+                                <div class="input-group">
+                                    <button type="button" class="btn btn-warning btn-sm" onclick="updateQuantity({{ $id }}, -1)">-</button>
+                                    <input type="number" name="cart[{{ $id }}][jumlah]" value="{{ $item['jumlah'] }}" min="1" class="form-control" style="width: 60px;">
+                                    <button type="button" class="btn btn-success btn-sm" onclick="updateQuantity({{ $id }}, 1)">+</button>
+                                </div>
+                            </td>
+                            <td>Rp {{ number_format($item['harga'] * $item['jumlah'], 0, ',', '.') }}</td>
+                            <td>
+                                <!-- Hapus Produk dari Keranjang -->
+                                <a href="{{ route('kasir.removeFromCart', $id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">Hapus</a>
+                            </td>
+                        </tr>
+                        @php $total += $item['harga'] * $item['jumlah']; @endphp
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="5" class="text-center">Keranjang kosong</td>
+                    </tr>
+                @endif
+            </tbody>
+        </table>
 
-
+        <button type="submit" class="btn btn-primary">Update Keranjang</button>
+    </form>
 
     <!-- Tampilkan Total dan Form Pembayaran -->
     <h3>Total: Rp {{ number_format($total, 0, ',', '.') }}</h3>
@@ -113,4 +126,31 @@
     <!-- Tombol ke halaman history transaksi -->
     <a href="{{ route('kasir.history') }}" class="btn btn-primary mt-3">Lihat Riwayat Transaksi</a>
 </div>
+
+<script>
+    function updateQuantity(id, delta) {
+        let input = document.querySelector(`input[name="cart[${id}][jumlah]"]`);
+        let newValue = parseInt(input.value) + delta;
+        if (newValue >= 1) {
+            input.value = newValue;
+        }
+    }
+</script>
+
+@if (session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Success!',
+                text: '{{ session('success') }}',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#00c6fb',
+                background: '#1e2832',
+                color: '#ffffff'
+            });
+        });
+    </script>
+@endif
+
 @endsection

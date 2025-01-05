@@ -17,6 +17,7 @@ class AuthController extends Controller
         $request->validate([
             'username' => 'required|email', // Validasi menggunakan email
             'password' => 'required',    // Validasi password
+            
         ]);
 
         // Cari pengguna berdasarkan email
@@ -27,6 +28,7 @@ class AuthController extends Controller
             // Set session sesuai role
             session([
                 'username' => $user->username,
+                'nama_user'=>$user->nama_user,
                 'role' => $user->role_id === 1 ? 'admin' : ($user->role_id === 2 ? 'kasir' : 'pergudangan'),
             ]);
 

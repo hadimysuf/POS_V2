@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container">
@@ -41,9 +41,10 @@
 </div>
 <!-- Tombol Submit -->
 <div class="mt-4">
-    <button type="submit" class="btn btn-primary btn-lg w-100">
+    <button type="submit" class="btn btn-primary btn-lg w-100 mb-5">
         Tambah Produk
     </button>
+    <a href="{{ route('produk.index') }}" class="btn btn-secondary">Kembali</a>
 </div>
 
 @endsection

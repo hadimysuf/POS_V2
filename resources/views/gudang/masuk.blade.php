@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.gudang')
 
 @section('content')
 <div class="container">
@@ -23,7 +23,7 @@
             </select>
         </div>
 
-        <div id="new-product-fields" style="display: none;">
+        <div id="new-product-fields" style="display;">
             <div class="form-group">
                 <label for="nama_produk">Nama Produk</label>
                 <input type="text" name="nama_produk" id="nama_produk" class="form-control">
@@ -43,7 +43,7 @@
             <input type="number" name="jumlah" id="jumlah" class="form-control" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Simpan</button>
+        <button type="submit" class="btn btn-primary">Simpan</button> <br>
     </form>
 </div>
 

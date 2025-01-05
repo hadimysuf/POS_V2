@@ -68,7 +68,6 @@ class KasirDashboardController extends Controller
         $request->validate([
             'nama_pembeli' => 'required|string|max:255', // Validasi nama pembeli
             'bayar' => 'required|numeric|min:' . $total,
-
         ]);
 
         $nomorTransaksi = 'TRX-' . strtoupper(uniqid());
@@ -103,6 +102,31 @@ class KasirDashboardController extends Controller
         session()->forget('cart');
 
         return redirect()->route('kasir.printReceipt', ['id' => $transaksi->id_transaksi]);
+    }
+
+    public function removeFromCart($id)
+    {
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+            session()->flash('success', 'Produk berhasil dihapus'); 
+        }
+
+        return redirect()->back();
+    }
+    public function updateCart(Request $request)
+    {
+        $cart = session()->get('cart', []);
+        foreach ($request->input('cart') as $id => $item) {
+            if (isset($cart[$id])) {
+                $cart[$id]['jumlah'] = $item['jumlah']; // Update jumlah produk
+            }
+        }
+        session()->put('cart', $cart);
+        session()->flash('success', 'Produk berhasil ubah');
+        return redirect()->back();
     }
 
     // Fungsi untuk menampilkan struk

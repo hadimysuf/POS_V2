@@ -14,7 +14,7 @@ use App\Http\Controllers\GudangDashboardController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\PergudanganController;
 use App\Http\Controllers\ReturController;
-
+use App\Http\Controllers\TransaksiHistoryAdmin;
 
 // Login Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -28,17 +28,23 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 // Admin Routes
 Route::middleware('admin')->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/monthly-stats', [AdminDashboardController::class, 'getMonthlyStats'])->name('admin.monthly.stats');
     Route::get('/sales/create', [SalesController::class, 'create'])->name('sales.create');
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/history', [TransactionHistoryController::class, 'index'])->name('history.index');
-    Route::get('/admin/history', [TransactionHistoryController::class, 'index'])->name('history.index');
+    Route::get('/create', [UserController::class, 'create'])->name('users.create'); // Form Create
+    Route::get('/admin/history', [TransaksiHistoryAdmin::class, 'index'])->name('history.index');
+    Route::get('/history/filter/{date}', [TransaksiHistoryAdmin::class, 'filterByDate']);
+    Route::get('/history-{id}', [TransaksiHistoryAdmin::class, 'show'])->name('transaksi.show');
+    Route::get('/history/print-{date}', [TransaksiHistoryAdmin::class, 'print'])->name('admin.history.print');
 });
 
 // Kasir Routes
 Route::middleware('kasir')->group(function () {
     Route::get('/kasir/dashboard', [KasirDashboardController::class, 'index'])->name('kasir.dashboard');
     Route::post('/kasir/add-to-cart', [KasirDashboardController::class, 'addToCart'])->name('kasir.addToCart');
+    Route::get('/remove-from-cart/{id}', [KasirDashboardController::class, 'removeFromCart'])->name('kasir.removeFromCart');
+    Route::post('/update-cart', [KasirDashboardController::class, 'updateCart'])->name('kasir.updateCart');
     Route::post('/kasir/reset-cart', [KasirDashboardController::class, 'resetCart'])->name('kasir.resetCart');
     Route::get('/kasir/print-receipt/{id}', [KasirDashboardController::class, 'printReceipt'])->name('kasir.printReceipt');
     Route::post('/kasir/checkout', [KasirDashboardController::class, 'checkout'])->name('kasir.checkout');
@@ -60,7 +66,7 @@ Route::middleware('kasir')->group(function () {
 // User Routes
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('users.index'); // Read
-    Route::get('/create', [UserController::class, 'create'])->name('users.create'); // Form Create
+    
     Route::post('/', [UserController::class, 'store'])->name('users.store'); // Create
     Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Form Edit
     Route::put('/{id}', [UserController::class, 'update'])->name('users.update'); // Update
@@ -73,14 +79,17 @@ Route::middleware('gudang')->group(function () {
     Route::get('/gudang/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
     Route::get('/gudang/transaksi/masuk', [GudangDashboardController::class, 'transaksiMasuk'])->name('gudang.transaksi.masuk');
     Route::post('/gudang/transaksi/masuk', [GudangDashboardController::class, 'simpanTransaksiMasuk'])->name('gudang.transaksi.simpanMasuk');
-    Route::get('/gudang/notifikasi', [GudangDashboardController::class, 'notifikasi'])->name('gudang.notifikasi');
-    Route::resource('pergudangan', PergudanganController::class);
+    Route::get('/gudang/notifikasi', [GudangDashboardController::class, 'notifikasiStokRendah'])->name('gudang.notifikasi');
+    Route::resource('/pergudangan', PergudanganController::class);
     Route::get('/produk/masuk', [GudangDashboardController::class, 'create'])->name('gudang.produk.masuk');
     Route::post('/produk/masuk', [GudangDashboardController::class, 'store'])->name('gudang.produk.store');
-    Route::get('/dashboard', [GudangDashboardController::class, 'index'])->name('gudang.dashboard');
-    Route::get('/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
+    Route::get('/gudang/dashboard', [GudangDashboardController::class, 'index'])->name('gudang.dashboard');
+    Route::get('/gudang/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
     // Rute untuk menampilkan halaman input barang masuk
     Route::get('/gudang/masuk', [GudangDashboardController::class, 'showBarangMasuk'])->name('gudang.masuk');
+    
+    //rute grafik bulanan
+    Route::get('/gudang/transactions/monthly', [GudangDashboardController::class, 'getMonthlyTransactions'])->name('gudang.transactions.monthly');
 
     // Rute untuk menyimpan barang masuk
     Route::post('/gudang/masuk', [GudangDashboardController::class, 'storeBarangMasuk'])->name('gudang.masuk.store');
@@ -92,7 +101,7 @@ Route::middleware('gudang')->group(function () {
 
 // Produk Routes
 Route::resource('produk', ProductController::class);
-Route::get('/admin/products/create', [AdminDashboardController::class, 'create'])->name('admin.products.create');
+Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
 
 
 

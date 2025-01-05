@@ -1,11 +1,11 @@
-@extends('layouts.app')
+@extends('layouts.gudang')
 
 @section('content')
 <div class="container">
     <h1 class="mb-4">Transaksi Barang Masuk & Keluar</h1>
 
     <!-- Filter Tanggal -->
-    <form action="{{ route('gudang.transaksi') }}" method="GET" class="mb-4">
+    <form action="" method="GET" class="mb-4">
         <div class="row">
             <div class="col-md-4">
                 <input type="date" name="tanggal" value="{{ request('tanggal') }}" class="form-control">
@@ -35,7 +35,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($transaksi as $t)
+            {{-- @forelse ($transaksi as $t)
             <tr>
                 <td>{{ $t->tanggal }}</td>
                 <td>{{ $t->tipe }}</td>
@@ -43,11 +43,11 @@
                 <td>{{ $t->jumlah }}</td>
                 <td>Rp {{ number_format($t->total, 0, ',', '.') }}</td>
             </tr>
-            @empty
+            @empty --}}
             <tr>
                 <td colspan="5" class="text-center">Tidak ada transaksi.</td>
             </tr>
-            @endforelse
+            {{-- @endforelse --}}
         </tbody>
     </table>
 </div>

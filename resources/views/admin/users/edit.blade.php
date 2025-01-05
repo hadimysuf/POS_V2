@@ -39,7 +39,7 @@
             </div>
             <div class="form-group">
                 <label>Password</label>
-                <input type="password" name="password" value="{{ old('password', $user->username) }}"
+                <input type="password" name="password" value="{{ old('password', $user->password) }}"
                     class="form-control @error('password') is-invalid @enderror" required>
                 @error('password')
                     <div class="invalid-feedback">{{ $message }}</div>
@@ -52,6 +52,7 @@
                 <select name="role_id" class="form-control @error('role_id') is-invalid @enderror">
                     <option value="1" {{ old('role_id', $user->role_id) == 1 ? 'selected' : '' }}>Admin</option>
                     <option value="2" {{ old('role_id', $user->role_id) == 2 ? 'selected' : '' }}>Kasir</option>
+                    <option value="3" {{ old('role_id', $user->role_id) == 3 ? 'selected' : '' }}>Gudang</option>
                 </select>
                 @error('role_id')
                     <div class="invalid-feedback">{{ $message }}</div>

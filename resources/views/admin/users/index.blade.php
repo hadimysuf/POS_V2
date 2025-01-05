@@ -6,7 +6,7 @@
             <h2>Daftar Users</h2>
             <a href="{{ route('users.create') }}" class="btn btn-primary">Tambah User</a>
         </div>
-        <table class="table table-dark table-striped table-hover">
+        <table class="table table-striped table-hover">
             <thead>
                 <tr>
                     <th>ID User</th>
@@ -26,7 +26,13 @@
                         <td>{{ $user->nama_user }}</td>
                         <td>{{ $user->username }}</td>
                         <td>{{ $user->password }}</td>
-                        <td>{{ $user->role_id === 1 ? 'Admin' : 'Kasir' }}</td>
+                        <td>
+                            {{ match ($user->role_id) {
+                                1 => 'Admin',
+                                2 => 'Kasir',
+                                default => 'Gudang',
+                            } }}
+                        </td>
                         <td>{{ $user->nomor_handphone }}</td>
                         <td>{{ $user->alamat }}</td>
                         <td>

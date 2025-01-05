@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         $request->validate([
             'nama_user' => 'required|string|max:100',
-            'username' => 'required|email|unique:user_pengguna,username',
+            'username' => 'required|email|unique:users,username',
             'password' => 'required|string|min:6',
             'role_id' => 'required|exists:role,id_role',
             'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,14}$/',
@@ -51,7 +51,7 @@ class UserController extends Controller
 
         $request->validate([
             'nama_user' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:user_pengguna,username,' . $id_user . ',id_user',
+            'username' => 'required|string|max:255|unique:users,username,' . $id_user . ',id_user',
             'password' => 'required|string|min:6',
             'role_id' => 'required|exists:role,id_role',
             'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,14}$/',

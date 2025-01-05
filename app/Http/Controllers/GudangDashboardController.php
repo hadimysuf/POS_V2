@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Transaksi;
 use App\Models\Kategori;
-
+use Illuminate\Support\Facades\DB;
 
 class GudangDashboardController extends Controller
 {
@@ -117,5 +117,29 @@ class GudangDashboardController extends Controller
         $produkStokRendah = Produk::whereColumn('stok', '<=', 'stok_minimum')->get();
 
         return view('gudang.notifikasi', compact('produkStokRendah'));
+    }
+
+    public function transaksiMasuk()
+    {
+        // Ambil data semua transaksi, urut berdasarkan tanggal dan ID
+        $transactions = Transaksi::orderBy('tanggal_waktu', 'desc')
+            ->orderBy('id_transaksi')
+            ->where('tipe', 'keluar')
+            ->get();
+
+        return view('gudang.transaksi');
+    }
+    public function getMonthlyTransactions()
+    {
+        $monthlyTransactions = Transaksi::select(
+            DB::raw("DATE_FORMAT(tanggal_waktu, '%Y-%m') as month"),
+            DB::raw("COUNT(*) as transaction_count") // Hitung jumlah transaksi
+        )
+            ->where('tipe', 'masuk') // Hanya transaksi masuk
+            ->groupBy(DB::raw("DATE_FORMAT(tanggal_waktu, '%Y-%m')"))
+            ->orderBy(DB::raw("DATE_FORMAT(tanggal_waktu, '%Y-%m')"), 'asc')
+            ->get();
+
+        return response()->json($monthlyTransactions);
     }
 }

@@ -17,14 +17,14 @@ class Transaksi extends Model
     // Kolom yang dapat diisi secara massal
     protected $fillable = [
         'tanggal_waktu',
+        'nama_user',
         'nomor_transaksi', //random
         'no_customer',     // Diurutkan dan di-reset
         'total',
-        'nama_user',
+        'nama_pembeli',
         'bayar',
         'kembali',
         'tipe',         // Enum: masuk atau keluar
-        'created_by',   // ID user yang membuat transaksi
     ];
 
     // Relasi dengan tabel transaksi_detail

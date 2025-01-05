@@ -33,10 +33,10 @@
 
 <div class="container">
     <h1>Detail Transaksi</h1>
-    <a href="{{ route('retur.create', $transaction->id_transaksi) }}" class="btn btn-danger">Proses Retur</a>
+    <a href="{{ route('retur.create', $transaction->id_transaksi) }}" class="btn btn-danger mb-3">Proses Retur</a>
 
-    <div class="card mb-4">
-        <div class="card-body">
+    <div class="card mb-4 text-white">
+        <div class="card-body ">
             <p><strong>No. Transaksi:</strong> {{ $transaction->nomor_transaksi }}</p>
             <p><strong>Tanggal:</strong> {{ $transaction->tanggal_waktu }}</p>
             <p><strong>Total:</strong> Rp {{ number_format($transaction->total, 0, ',', '.') }}</p>

@@ -7,6 +7,7 @@ use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use Illuminate\Support\Facades\DB;
 
 class AdminDashboardController extends Controller
 {
@@ -27,6 +28,21 @@ class AdminDashboardController extends Controller
         $stokRendah = Produk::whereColumn('stok', '<', 'stok_minimum')->get(); // Produk dengan stok rendah
 
         return view('admin.dashboard', compact('username', 'role', 'totalUsers', 'totalProducts', 'totalTransactions', 'stokRendah'));
+    }
+    public function getMonthlyStats()
+    {
+        $monthlyStats = Transaksi::selectRaw('
+            MONTH(tanggal_waktu) as month,
+            YEAR(tanggal_waktu) as year,
+            COUNT(*) as total_transactions,
+            SUM(total) as total_income
+        ')
+            ->where('tipe', 'keluar') // Filter hanya transaksi dengan tipe keluar
+            ->groupByRaw('YEAR(tanggal_waktu), MONTH(tanggal_waktu)')
+            ->orderByRaw('YEAR(tanggal_waktu), MONTH(tanggal_waktu)')
+            ->get();
+
+        return response()->json($monthlyStats);
     }
 
     public function tambahProduk()
