@@ -3,19 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Produk; // Memanggil Model Produk
+use App\Models\Produk;
 use App\Models\Transaksi;
 use App\Models\TransaksiDetail;
+
 
 class KasirDashboardController extends Controller
 {
     // Menampilkan halaman dashboard kasir
     public function index()
     {
-        // Ambil semua data produk dari database
-        $produk = Produk::all(); // Pastikan ini mengambil data yang benar
-
-        // Kirim data produk ke view
+        $produk = Produk::all();
         return view('kasir.dashboard', compact('produk'));
     }
 
@@ -59,41 +57,37 @@ class KasirDashboardController extends Controller
     {
         $cart = session('cart', []);
 
-        // Validasi keranjang
         if (empty($cart)) {
             return redirect()->route('kasir.dashboard')->with('error', 'Keranjang kosong.');
         }
 
-        // Hitung total harga
         $total = array_sum(array_map(function ($item) {
             return $item['harga'] * $item['jumlah'];
         }, $cart));
 
-        // Validasi input pembayaran
         $request->validate([
+            'nama_pembeli' => 'required|string|max:255', // Validasi nama pembeli
             'bayar' => 'required|numeric|min:' . $total,
+
         ]);
 
-        // Generate nomor_transaksi (random)
-        $nomorTransaksi = 'TRX-' . strtoupper(uniqid()); // Contoh: TRX-65F8C2A1D
-
-        // Hitung no_customer (urut & reset tiap hari)
+        $nomorTransaksi = 'TRX-' . strtoupper(uniqid());
         $tanggalHariIni = now()->format('Y-m-d');
         $noCustomer = Transaksi::whereDate('tanggal_waktu', $tanggalHariIni)->max('no_customer') + 1;
 
-
-        // Simpan transaksi utama
         $transaksi = Transaksi::create([
             'tanggal_waktu' => now(),
-            'nomor_transaksi' => $nomorTransaksi, // Random nomor transaksi
-            'no_customer' => $noCustomer,        // Urut dan reset tiap hari
+            'nomor_transaksi' => $nomorTransaksi,
+            'no_customer' => $noCustomer,
             'total' => $total,
-            'nama_user' => session('nama_user', 'Kasir Default'), // Jika session tidak ada, gunakan default
+            'nama_user' => session('nama_user', 'Kasir Default'),
+            'nama_pembeli' => $request->nama_pembeli, // Simpan nama pembeli
             'bayar' => $request->bayar,
-            'kembali' => $request->bayar - $total, // Hitung kembalian
+            'kembali' => $request->bayar - $total,
+            'tipe' => 'keluar', // Tambahkan tipe "keluar" untuk transaksi kasir
+            'created_by' => session('id'), // Pastikan session ID pengguna tersimpan
         ]);
 
-        // Simpan detail transaksi
         foreach ($cart as $id_produk => $item) {
             TransaksiDetail::create([
                 'id_transaksi' => $transaksi->id_transaksi,
@@ -103,16 +97,14 @@ class KasirDashboardController extends Controller
                 'total' => $item['harga'] * $item['jumlah'],
             ]);
 
-            // Update stok produk
-            Produk::where('id_produk', $id_produk)->decrement('jumlah', $item['jumlah']);
+            Produk::where('id_produk', $id_produk)->decrement('stok', $item['jumlah']);
         }
 
-        // Kosongkan keranjang
         session()->forget('cart');
 
-        // Redirect ke halaman cetak struk
         return redirect()->route('kasir.printReceipt', ['id' => $transaksi->id_transaksi]);
     }
+
     // Fungsi untuk menampilkan struk
     public function printReceipt($id)
     {

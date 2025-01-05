@@ -84,10 +84,17 @@
         </tbody>
     </table>
 
+
+
     <!-- Tampilkan Total dan Form Pembayaran -->
     <h3>Total: Rp {{ number_format($total, 0, ',', '.') }}</h3>
     <form action="{{ route('kasir.checkout') }}" method="POST">
         @csrf
+        <div class="form-group">
+            <label for="nama_pembeli">Nama Pembeli</label>
+            <input type="text" name="nama_pembeli" id="nama_pembeli" class="form-control" required>
+        </div>
+
         <div class="mb-3">
             <label for="bayar" class="form-label">Uang Pembayaran:</label>
             <input type="number" name="bayar" class="form-control" required min="{{ $total }}">
@@ -100,5 +107,10 @@
         @csrf
         <button type="submit" class="btn btn-danger">Reset Keranjang</button>
     </form>
+</div>
+
+<div class="container">
+    <!-- Tombol ke halaman history transaksi -->
+    <a href="{{ route('kasir.history') }}" class="btn btn-primary mt-3">Lihat Riwayat Transaksi</a>
 </div>
 @endsection

@@ -13,6 +13,8 @@ use App\Http\Controllers\KasirDashboardController;
 use App\Http\Controllers\GudangDashboardController;
 use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\PergudanganController;
+use App\Http\Controllers\ReturController;
+
 
 // Login Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -30,6 +32,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/history', [TransactionHistoryController::class, 'index'])->name('history.index');
+    Route::get('/admin/history', [TransactionHistoryController::class, 'index'])->name('history.index');
 });
 
 // Kasir Routes
@@ -39,7 +42,20 @@ Route::middleware('kasir')->group(function () {
     Route::post('/kasir/reset-cart', [KasirDashboardController::class, 'resetCart'])->name('kasir.resetCart');
     Route::get('/kasir/print-receipt/{id}', [KasirDashboardController::class, 'printReceipt'])->name('kasir.printReceipt');
     Route::post('/kasir/checkout', [KasirDashboardController::class, 'checkout'])->name('kasir.checkout');
+    Route::get('/kasir/transactions', [TransactionHistoryController::class, 'index'])->name('kasir.transactions');
+    Route::get('/kasir/transactions/{id}', [TransactionHistoryController::class, 'show'])->name('kasir.transactions.show');
+    Route::get('/kasir/history', [TransactionHistoryController::class, 'index'])->name('kasir.history.index');
+    Route::get('/kasir/history/{id}', [TransactionHistoryController::class, 'show'])->name('kasir.history.show');
+    Route::get('/kasir/history', [TransactionHistoryController::class, 'index'])->name('kasir.history');
+    Route::get('/kasir/history/{id}/receipt', [TransactionHistoryController::class, 'showReceipt'])->name('kasir.history.receipt');
+    Route::get('/history', [TransactionHistoryController::class, 'index'])->name('kasir.history.index');
+    Route::get('/history/{id}', [TransactionHistoryController::class, 'show'])->name('kasir.history.show');
+    Route::get('/history/{id}/receipt', [TransactionHistoryController::class, 'showReceipt'])->name('kasir.history.receipt');
+    Route::get('/{id_transaksi}/create', [ReturController::class, 'create'])->name('retur.create'); // Form proses retur
+    Route::post('/store', [ReturController::class, 'store'])->name('retur.store'); // Proses penyimpanan retur
+
 });
+
 
 // User Routes
 Route::prefix('users')->group(function () {
@@ -59,6 +75,16 @@ Route::middleware('gudang')->group(function () {
     Route::post('/gudang/transaksi/masuk', [GudangDashboardController::class, 'simpanTransaksiMasuk'])->name('gudang.transaksi.simpanMasuk');
     Route::get('/gudang/notifikasi', [GudangDashboardController::class, 'notifikasi'])->name('gudang.notifikasi');
     Route::resource('pergudangan', PergudanganController::class);
+    Route::get('/produk/masuk', [GudangDashboardController::class, 'create'])->name('gudang.produk.masuk');
+    Route::post('/produk/masuk', [GudangDashboardController::class, 'store'])->name('gudang.produk.store');
+    Route::get('/dashboard', [GudangDashboardController::class, 'index'])->name('gudang.dashboard');
+    Route::get('/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
+    // Rute untuk menampilkan halaman input barang masuk
+    Route::get('/gudang/masuk', [GudangDashboardController::class, 'showBarangMasuk'])->name('gudang.masuk');
+
+    // Rute untuk menyimpan barang masuk
+    Route::post('/gudang/masuk', [GudangDashboardController::class, 'storeBarangMasuk'])->name('gudang.masuk.store');
+    Route::get('/gudang/notifikasi/stok-rendah', [GudangDashboardController::class, 'notifikasiStokRendah'])->name('gudang.notifikasi.stokRendah');
 });
 
 

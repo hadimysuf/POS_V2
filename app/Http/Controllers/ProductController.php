@@ -32,16 +32,19 @@ class ProductController extends Controller
             'satuan' => 'required|string|max:50',
         ]);
 
+        // Simpan data produk
         Produk::create([
             'id_kategori' => $request->id_kategori,
             'nama_produk' => $request->nama_produk,
             'harga' => $request->harga,
             'stok' => $request->stok,
             'satuan' => $request->satuan,
-            'jumlah' => $request->stok, // Mengisi jumlah dengan nilai stok
+
         ]);
-        return redirect()->route('products.index')->with('success', 'Produk berhasil ditambahkan!');
+
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil ditambahkan!');
     }
+
 
     public function edit($id)
     {
@@ -66,7 +69,7 @@ class ProductController extends Controller
             'satuan' => 'required|string|max:50',
         ]);
 
-        // Temukan produk yang akan diupdate
+        // Temukan produk berdasarkan ID
         $produk = Produk::findOrFail($id);
 
         // Update data produk
@@ -76,12 +79,12 @@ class ProductController extends Controller
             'harga' => $request->harga,
             'stok' => $request->stok,
             'satuan' => $request->satuan,
-            'jumlah' => $request->stok, // Update jumlah sesuai stok
         ]);
 
         // Redirect ke halaman daftar produk dengan pesan sukses
-        return redirect()->route('products.index')->with('success', 'Produk berhasil diperbarui!');
+        return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui!');
     }
+
 
     public function destroy(Produk $produk)
     {

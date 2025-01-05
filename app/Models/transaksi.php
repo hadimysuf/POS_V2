@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Transaksi extends Model
 {
     use HasFactory;
@@ -21,7 +22,9 @@ class Transaksi extends Model
         'total',
         'nama_user',
         'bayar',
-        'kembali'
+        'kembali',
+        'tipe',         // Enum: masuk atau keluar
+        'created_by',   // ID user yang membuat transaksi
     ];
 
     // Relasi dengan tabel transaksi_detail

@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role_ extends Model
+class Role extends Model
 {
     use HasFactory;
 
-    protected $table = 'role'; // Nama tabel
-    protected $primaryKey = 'id_role'; // Primary key
-    public $timestamps = false; // Nonaktifkan timestamps
-    // protected $table = 'role';
-    // protected $fillable = ['nama'];
+    protected $table = 'role';
+    protected $primaryKey = 'id_role';
+    protected $fillable = ['nama'];
 
-    // public function users()
-    // {
-    // return $this->hasMany(UserPengguna::class, 'role_id');
-    // }
+    public function users()
+    {
+        return $this->hasMany(User::class, 'role_id', 'id_role');
+    }
 }

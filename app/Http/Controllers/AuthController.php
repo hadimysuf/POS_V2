@@ -35,7 +35,7 @@ class AuthController extends Controller
                 return redirect('/admin/dashboard')->with('success', 'Login sebagai Admin berhasil!');
             } elseif ($user->role_id === 2) {
                 return redirect('/kasir/dashboard')->with('success', 'Login sebagai Kasir berhasil!');
-            } elseif ($user->role_id === 4) {
+            } elseif ($user->role_id === 3) {
                 return redirect('/gudang/dashboard')->with('success', 'Login sebagai Admin Gudang berhasil!');
             }
         }
