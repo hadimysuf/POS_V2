@@ -14,14 +14,14 @@
             </a>
         </li>
         <li>
-            <a class="text-decoration-none {{ Request::is('users*') ? 'active' : '' }}"
+            <a class="text-decoration-none {{ Request::is('admin/users*') ? 'active' : '' }}"
                 href="{{ route('users.index') }}">
                 <i class="fa-solid fa-users"></i>
                 <span>Users</span>
             </a>
         </li>
         <li>
-            <a class="text-decoration-none {{ Request::is('produk*') ? 'active' : '' }}"
+            <a class="text-decoration-none {{ Request::is('admin/produk*') ? 'active' : '' }}"
                 href="{{ route('produk.index') }}">
                 <i class="fa-solid fa-list-check"></i>
                 <span>Produk</span>

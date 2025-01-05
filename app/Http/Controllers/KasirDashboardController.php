@@ -111,7 +111,7 @@ class KasirDashboardController extends Controller
         if (isset($cart[$id])) {
             unset($cart[$id]);
             session()->put('cart', $cart);
-            session()->flash('success', 'Produk berhasil dihapus'); 
+            session()->flash('success', 'Produk berhasil dihapus');
         }
 
         return redirect()->back();
@@ -134,5 +134,13 @@ class KasirDashboardController extends Controller
     {
         $transaksi = Transaksi::with('details.produk')->findOrFail($id);
         return view('kasir.receipt', compact('transaksi'));
+    }
+    public function showTransactions()
+    {
+        // Mendapatkan transaksi yang terjadi pada hari ini
+        $today = now()->format('Y-m-d'); // Mendapatkan tanggal hari ini dalam format YYYY-MM-DD
+        $transactions = Transaksi::whereDate('tanggal_waktu', $today)->get();
+
+        return view('kasir.history', compact('transactions'));
     }
 }

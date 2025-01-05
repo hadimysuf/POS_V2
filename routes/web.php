@@ -29,14 +29,14 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 Route::middleware('admin')->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/monthly-stats', [AdminDashboardController::class, 'getMonthlyStats'])->name('admin.monthly.stats');
-    Route::get('/sales/create', [SalesController::class, 'create'])->name('sales.create');
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-    Route::get('/users', [UserController::class, 'index'])->name('users.index');
-    Route::get('/create', [UserController::class, 'create'])->name('users.create'); // Form Create
+    Route::get('/admin/sales/create', [SalesController::class, 'create'])->name('sales.create');
+    Route::get('/admin/produk', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/admin/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/admin/users/create', [UserController::class, 'create'])->name('users.create'); // Form Create
     Route::get('/admin/history', [TransaksiHistoryAdmin::class, 'index'])->name('history.index');
-    Route::get('/history/filter/{date}', [TransaksiHistoryAdmin::class, 'filterByDate']);
-    Route::get('/history-{id}', [TransaksiHistoryAdmin::class, 'show'])->name('transaksi.show');
-    Route::get('/history/print-{date}', [TransaksiHistoryAdmin::class, 'print'])->name('admin.history.print');
+    Route::get('/admin/history/filter/{date}', [TransaksiHistoryAdmin::class, 'filterByDate']);
+    Route::get('/admin/history-{id}', [TransaksiHistoryAdmin::class, 'show'])->name('transaksi.show');
+    Route::get('/admin/history/print-{date}', [TransaksiHistoryAdmin::class, 'print'])->name('admin.history.print');
 });
 
 // Kasir Routes
@@ -64,7 +64,7 @@ Route::middleware('kasir')->group(function () {
 
 
 // User Routes
-Route::prefix('users')->group(function () {
+Route::prefix('/admin/users')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('users.index'); // Read
     
     Route::post('/', [UserController::class, 'store'])->name('users.store'); // Create
@@ -98,10 +98,12 @@ Route::middleware('gudang')->group(function () {
 
 
 
+// web.php
+
 
 // Produk Routes
-Route::resource('produk', ProductController::class);
-Route::get('/admin/products/create', [ProductController::class, 'create'])->name('admin.products.create');
+Route::resource('admin/produk', ProductController::class);
+Route::get('/admin/produk/create', [ProductController::class, 'create'])->name('admin.products.create');
 
 
 

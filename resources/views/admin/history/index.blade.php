@@ -137,7 +137,7 @@
             @endif
 
             <div class="table-responsive mb-4" data-date="{{ $date }}">
-                <h6 class="text-secondary mb-3">{{ \Carbon\Carbon::parse($date)->isoFormat('dddd, D MMMM Y') }}</h6>
+                <h6 class="text-white mb-3">{{ \Carbon\Carbon::parse($date)->isoFormat('dddd, D MMMM Y') }}</h6>
                 <table class="table">
                     <thead>
                         <tr>
