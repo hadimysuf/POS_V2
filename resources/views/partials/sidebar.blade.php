@@ -2,8 +2,9 @@
     <div class="header-box">
         <h1>
             <span id="orange">POS</span>
-            <span class=""><i>Menu Admin</i></span>
+            <span class="orange"><i>Menu Admin</i></span>
         </h1>
+        
     </div>
     <ul class="list-unstyled">
         <li>

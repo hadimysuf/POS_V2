@@ -37,6 +37,7 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/history/filter/{date}', [TransaksiHistoryAdmin::class, 'filterByDate']);
     Route::get('/admin/history-{id}', [TransaksiHistoryAdmin::class, 'show'])->name('transaksi.show');
     Route::get('/admin/history/print-{date}', [TransaksiHistoryAdmin::class, 'print'])->name('admin.history.print');
+    Route::get('admin/history/printByMonthYearWebp/{month}/{year}', [TransaksiHistoryAdmin::class, 'printByMonthYear'])->name('admin.history.printMonth');
 });
 
 // Kasir Routes
@@ -81,8 +82,8 @@ Route::middleware('gudang')->group(function () {
     Route::post('/gudang/transaksi/masuk', [GudangDashboardController::class, 'simpanTransaksiMasuk'])->name('gudang.transaksi.simpanMasuk');
     Route::get('/gudang/notifikasi', [GudangDashboardController::class, 'notifikasiStokRendah'])->name('gudang.notifikasi');
     Route::resource('/pergudangan', PergudanganController::class);
-    Route::get('/produk/masuk', [GudangDashboardController::class, 'create'])->name('gudang.produk.masuk');
-    Route::post('/produk/masuk', [GudangDashboardController::class, 'store'])->name('gudang.produk.store');
+    Route::get('/gudang/produk/masuk', [GudangDashboardController::class, 'create'])->name('gudang.produk.masuk');
+    Route::post('/gudang/produk/masuk', [GudangDashboardController::class, 'store'])->name('gudang.produk.store');
     Route::get('/gudang/dashboard', [GudangDashboardController::class, 'index'])->name('gudang.dashboard');
     Route::get('/gudang/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
     // Rute untuk menampilkan halaman input barang masuk
