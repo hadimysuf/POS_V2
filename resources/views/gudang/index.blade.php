@@ -2,29 +2,37 @@
 
 @section('content')
 <div class="container">
-    <h1>Daftar Transaksi Gudang</h1>
-    <a href="{{ route('pergudangan.create') }}" class="btn btn-primary">Tambah Transaksi</a>
-    <table class="table table-bordered mt-3">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nama Produk</th>
-                <th>Jumlah</th>
-                <th>Jenis Transaksi</th>
-                <th>Tanggal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($transaksi as $t)
-                <tr>
-                    <td>{{ $t->id }}</td>
-                    <td>{{ $t->produk->nama_produk }}</td>
-                    <td>{{ $t->jumlah }}</td>
-                    <td>{{ $t->jenis_transaksi }}</td>
-                    <td>{{ $t->tanggal }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <h1 class="text-center my-4">Tambah Stok Barang</h1>
+
+    <!-- Alert jika ada pesan sukses -->
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    <!-- Form Tambah Stok -->
+    <form action="{{ route('gudang.tambah_stok') }}" method="POST">
+        @csrf
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_produk" class="form-label">Pilih Produk</label>
+                <select class="form-select" id="id_produk" name="id_produk" required>
+                    <option value="" disabled selected>-- Pilih Produk --</option>
+                    @foreach($produk as $item)
+                    <option value="{{ $item->id_produk }}">{{ $item->nama_produk }} (Stok: {{ $item->stok }})</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="jumlah" class="form-label">Jumlah Barang</label>
+                <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah barang" required min="1">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Tambah Stok</button>
+    </form>
 </div>
 @endsection

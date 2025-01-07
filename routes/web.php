@@ -67,7 +67,7 @@ Route::middleware('kasir')->group(function () {
 // User Routes
 Route::prefix('/admin/users')->group(function () {
     Route::get('/', [UserController::class, 'index'])->name('users.index'); // Read
-    
+
     Route::post('/', [UserController::class, 'store'])->name('users.store'); // Create
     Route::get('/{id}/edit', [UserController::class, 'edit'])->name('users.edit'); // Form Edit
     Route::put('/{id}', [UserController::class, 'update'])->name('users.update'); // Update
@@ -81,20 +81,25 @@ Route::middleware('gudang')->group(function () {
     Route::get('/gudang/transaksi/masuk', [GudangDashboardController::class, 'transaksiMasuk'])->name('gudang.transaksi.masuk');
     Route::post('/gudang/transaksi/masuk', [GudangDashboardController::class, 'simpanTransaksiMasuk'])->name('gudang.transaksi.simpanMasuk');
     Route::get('/gudang/notifikasi', [GudangDashboardController::class, 'notifikasiStokRendah'])->name('gudang.notifikasi');
-    Route::resource('/pergudangan', PergudanganController::class);
     Route::get('/gudang/produk/masuk', [GudangDashboardController::class, 'create'])->name('gudang.produk.masuk');
     Route::post('/gudang/produk/masuk', [GudangDashboardController::class, 'store'])->name('gudang.produk.store');
     Route::get('/gudang/dashboard', [GudangDashboardController::class, 'index'])->name('gudang.dashboard');
     Route::get('/gudang/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
     // Rute untuk menampilkan halaman input barang masuk
     Route::get('/gudang/masuk', [GudangDashboardController::class, 'showBarangMasuk'])->name('gudang.masuk');
-    
     //rute grafik bulanan
     Route::get('/gudang/transactions/monthly', [GudangDashboardController::class, 'getMonthlyTransactions'])->name('gudang.transactions.monthly');
 
     // Rute untuk menyimpan barang masuk
     Route::post('/gudang/masuk', [GudangDashboardController::class, 'storeBarangMasuk'])->name('gudang.masuk.store');
     Route::get('/gudang/notifikasi/stok-rendah', [GudangDashboardController::class, 'notifikasiStokRendah'])->name('gudang.notifikasi.stokRendah');
+
+    //Menampilkan transaksi masuk
+    Route::get('/gudang/transaksi', [GudangDashboardController::class, 'daftarTransaksi'])->name('gudang.transaksi');
+
+ 
+    Route::get('/pergudangan', [GudangDashboardController::class, 'create'])->name('gudang.tambah_stok');
+    Route::post('/pergudangan', [GudangDashboardController::class, 'store'])->name('gudang.tambah_stok');
 });
 
 

@@ -30,7 +30,7 @@ class GudangDashboardController extends Controller
     public function create()
     {
         $produk = Produk::all();
-        return view('gudang.masuk', compact('produk'));
+        return view('gudang.index', compact('produk'));
     }
 
     // Fungsi untuk menyimpan barang masuk ke stok dan transaksi
@@ -46,14 +46,21 @@ class GudangDashboardController extends Controller
 
         // Tambahkan stok
         $produk->increment('stok', $request->jumlah);
+        $tanggalHariIni = now()->format('Y-m-d');
+        $noCustomer = Transaksi::whereDate('tanggal_waktu', $tanggalHariIni)->max('no_customer') + 1;
 
         // Simpan transaksi tipe masuk
         Transaksi::create([
             'tanggal_waktu' => now(),
             'nomor_transaksi' => 'TRX-' . strtoupper(uniqid()),
+            'nama_user' => session('nama_user', 'Kasir Default'),
             'total' => $produk->harga * $request->jumlah,
+            'bayar' => $produk->harga * $request->jumlah,
+            'kembali' => 0,
+            'nama_pembeli' => 'toko',
             'tipe' => 'masuk',
             'created_by' => session('id'),
+            'no_customer' => $noCustomer,
         ]);
 
         return redirect()->route('gudang.dashboard')->with('success', 'Barang berhasil ditambahkan ke stok!');
@@ -127,7 +134,6 @@ class GudangDashboardController extends Controller
             ->where('tipe', 'keluar')
             ->get();
 
-        return view('gudang.transaksi');
     }
     public function getMonthlyTransactions()
     {
@@ -141,5 +147,19 @@ class GudangDashboardController extends Controller
             ->get();
 
         return response()->json($monthlyTransactions);
+    }
+    public function daftarTransaksi()
+    {
+        // Ambil semua transaksi masuk
+        $transaksiMasuk = Transaksi::where('tipe', 'masuk')
+            ->orderBy('tanggal_waktu', 'desc')
+            ->get();
+
+        // Ambil semua transaksi keluar
+        $transaksiKeluar = Transaksi::where('tipe', 'keluar')
+            ->orderBy('tanggal_waktu', 'desc')
+            ->get();
+
+        return view('gudang.transaksi', compact('transaksiMasuk', 'transaksiKeluar'));
     }
 }
