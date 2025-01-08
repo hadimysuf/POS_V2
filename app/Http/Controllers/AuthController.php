@@ -14,40 +14,40 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-
         $request->validate([
-            'username' => 'required',
-            'password' => 'required',
+            'username' => 'required|email', // Validasi menggunakan email
+            'password' => 'required',    // Validasi password
+            
         ]);
 
-        // Cari pengguna berdasarkan username
+        // Cari pengguna berdasarkan email
         $user = User::where('username', $request->username)->first();
 
         // Cek apakah pengguna ditemukan dan password cocok
         if ($user && $user->password === $request->password) {
-            // Simpan data pengguna ke session
+            // Set session sesuai role
             session([
                 'username' => $user->username,
-                'role' => $user->role_id === 1 ? 'admin' : 'kasir', // Role berdasarkan role_id
+                'nama_user'=>$user->nama_user,
+                'role' => $user->role_id === 1 ? 'admin' : ($user->role_id === 2 ? 'kasir' : 'pergudangan'),
             ]);
 
-            // Redirect sesuai dengan role
+            // Redirect ke halaman sesuai role
             if ($user->role_id === 1) {
                 return redirect('/admin/dashboard')->with('success', 'Login sebagai Admin berhasil!');
-            } else {
+            } elseif ($user->role_id === 2) {
                 return redirect('/kasir/dashboard')->with('success', 'Login sebagai Kasir berhasil!');
+            } elseif ($user->role_id === 3) {
+                return redirect('/gudang/dashboard')->with('success', 'Login sebagai Admin Gudang berhasil!');
             }
         }
 
-        return back()->with('error', 'Username atau password salah.');
+        return back()->with('error', 'Email atau password salah.');
     }
 
     public function logout()
     {
         session()->flush();
         return redirect('/login')->with('success', 'Logout berhasil!');
-
-        // // Setelah menyimpan session
-        // dd(session('username'), session('role'));
     }
 }

@@ -8,11 +8,11 @@ class SalesController extends Controller
 {
     public function create()
     {
-        // Ambil data produk untuk transaksi
-        $products = [
-            ['id' => 1, 'name' => 'Product A', 'price' => 10000],
-            ['id' => 2, 'name' => 'Product B', 'price' => 20000],
-        ];
+        // // Ambil data produk untuk transaksi
+        // $products = [
+        //     ['id' => 1, 'name' => 'Product A', 'price' => 10000],
+        //     ['id' => 2, 'name' => 'Product B', 'price' => 20000],
+        // ];
 
         return view('kasir.sales.create', compact('products'));
     }

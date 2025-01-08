@@ -8,6 +8,6 @@
         <h1>Welcome, Guest</h1>
     @endif
     <p>Selamat datang di sistem Point of Sales!</p>
-    <a href="{{ route('logout') }}" class="btn btn-danger">Logout</a>
+
 </div>
 @endsection

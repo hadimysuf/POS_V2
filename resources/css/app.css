@@ -1,0 +1,26 @@
+/* Class untuk tombol Kembali */
+.btn-secondary {
+    background-color: #6c757d; /* Warna abu-abu */
+    border: none; /* Hilangkan border */
+    color: white; /* Warna teks putih */
+    padding: 10px 20px; /* Padding dalam tombol */
+    font-size: 16px; /* Ukuran font */
+    border-radius: 5px; /* Membuat tombol membulat */
+    text-decoration: none; /* Hilangkan garis bawah */
+    transition: background-color 0.3s ease; /* Animasi saat hover */
+}
+
+/* Efek hover */
+.btn-secondary:hover {
+    background-color: #5a6268; /* Warna lebih gelap saat hover */
+    color: white; /* Warna teks tetap putih */
+    cursor: pointer; /* Tampilkan ikon pointer */
+}
+
+/* Class untuk membuat tombol sejajar */
+.button-group {
+    display: flex;
+    justify-content: flex-start; /* Sejajarkan tombol ke kiri */
+    gap: 10px; /* Jarak antar tombol */
+    margin-top: 20px; /* Tambahkan margin di atas tombol */
+}

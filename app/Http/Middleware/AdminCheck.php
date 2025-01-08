@@ -3,16 +3,13 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth; // Tambahkan ini
 use Illuminate\Http\Request;
 
 class AdminCheck
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        $role = session('role');
-
-        if ($role !== 'admin') {
+        if (session('role') !== 'admin') {
             return redirect('/login')->with('error', 'Unauthorized access.');
         }
 

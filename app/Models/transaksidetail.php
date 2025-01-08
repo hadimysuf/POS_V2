@@ -1,22 +1,35 @@
+<?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\TransactionDetail;
 
 class TransaksiDetail extends Model
 {
-use HasFactory;
+    use HasFactory;
 
-protected $table = 'transaksi_detail';
-protected $fillable = ['id_transaksi', 'id_produk', 'harga', 'jumlah', 'total'];
+    protected $table = 'transaksi_detail';
+    protected $primaryKey = 'id_transaksi_detail';
 
-public function transaksi()
-{
-return $this->belongsTo(Transaksi::class, 'id_transaksi');
-}
+    protected $fillable = [
+        'id_transaksi',
+        'id_produk',
+        'harga',
+        'jumlah',
+        'total',
+    ];
 
-public function produk()
-{
-return $this->belongsTo(Product::class, 'id_produk');
-}
+    // Relasi ke tabel transaksi
+    public function transaksi()
+    {
+        return $this->belongsTo(Transaksi::class, 'id_transaksi', 'id_transaksi');
+    }
+
+    // Relasi ke tabel produk
+    public function produk()
+    {
+        return $this->belongsTo(Produk::class, 'id_produk', 'id_produk');
+    }
 }
