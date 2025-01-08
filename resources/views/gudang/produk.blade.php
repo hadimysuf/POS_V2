@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>Daftar Produk</h1>
-        <a href="{{ route('gudang.produk.masuk') }}" class="btn btn-primary mb-2">Tambah Produk</a>
+        <a href="{{ route('gudang.produk.create') }}" class="btn btn-primary mb-2">Tambah Produk</a>
 
         @if ($produk->isEmpty())
             <p class="" >Tidak ada produk tersedia.</p>
