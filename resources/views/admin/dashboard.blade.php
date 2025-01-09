@@ -1,6 +1,36 @@
 @extends('layouts.admin')
 
 @section('content')
+    <style>
+        .table thead th {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--text-primary);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+        }
+
+        .table tbody td {
+            border-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            vertical-align: middle;
+            background-color: rgba(255, 255, 255, 0.1);
+            /* Set background to black */
+            color: #f4f4f4;
+            /* Set text color to white for contrast */
+        }
+
+        .table tfoot td {
+            background: rgba(215, 213, 251, 0.1);
+            color: rgb(112, 156, 47);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+        }
+
+
+        .table tbody tr:hover {
+            background: rgba(79, 70, 229, 0.05);
+        }
+    </style>
     <div class="container">
         <h1>Dashboard Admin</h1>
         <p>Selamat datang, {{ $username }}!</p>
@@ -25,7 +55,6 @@
                     </div>
                 </div>
             </div>
-
             <!-- Total Transaksi -->
             <div class="col-md-4">
                 <div class="card text-white bg-warning mb-3">
@@ -36,6 +65,36 @@
                 </div>
             </div>
         </div>
+        @if ($stokRendah->isEmpty())
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 gradient-text text-white ">Tidak Ada Produk dengan Stok Rendah</h5>
+        </div>
+        @else
+        <div class="header">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 gradient-text text-white ">Daftar Produk Dengan Stok Rendah</h5>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nama Produk</th>
+                        <th>Stok</th>
+                        <th>Stok Minimum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($stokRendah as $produk)
+                        <tr>
+                            <td>{{ $produk->nama_produk }}</td>
+                            <td>{{ $produk->stok }}</td>
+                            <td>{{ $produk->stok_minimum }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @endif
+
 
         <!-- Grafik Total Transaksi dan Pemasukan -->
         <div class="row mt-5">
@@ -67,8 +126,7 @@
                 type: 'bar',
                 data: {
                     labels: labels, // Label sumbu X (bulan)
-                    datasets: [
-                        {
+                    datasets: [{
                             label: 'Total Transaksi',
                             data: totalTransactions,
                             backgroundColor: 'rgba(54, 162, 235, 0.6)',
@@ -87,9 +145,11 @@
                 options: {
                     responsive: true,
                     plugins: {
-                        legend: { display: true },
-                        tooltip: { 
-                            mode: 'index', 
+                        legend: {
+                            display: true
+                        },
+                        tooltip: {
+                            mode: 'index',
                             intersect: false,
                             callbacks: {
                                 label: function(context) {
@@ -100,9 +160,17 @@
                         }
                     },
                     scales: {
-                        x: { title: { display: true, text: 'Bulan' } },
-                        y: { 
-                            title: { display: true, text: 'Jumlah' },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Bulan'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Jumlah'
+                            },
                             beginAtZero: true
                         }
                     }
@@ -111,7 +179,7 @@
         }
 
         // Ambil data dari server
-        fetch('{{ route("admin.monthly.stats") }}')
+        fetch('{{ route('admin.monthly.stats') }}')
             .then(response => response.json())
             .then(data => {
                 drawChart(data);
