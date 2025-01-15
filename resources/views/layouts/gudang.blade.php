@@ -167,7 +167,7 @@
                 @php
                     $menuItems = [
                         ['route' => 'gudang.dashboard', 'icon' => 'fa-house', 'label' => 'Dashboard'],
-                        ['route' => 'gudang.produk', 'icon' => 'fa-box', 'label' => 'Produk'],
+                        ['route' => 'gudang.produk.index', 'icon' => 'fa-box', 'label' => 'Produk'],
                         ['route' => 'gudang.transaksi', 'icon' => 'fa-arrow-right', 'label' => 'Transaksi Masuk'],
                         ['route' => 'gudang.notifikasi', 'icon' => 'fa-bell', 'label' => 'Notifikasi'],
                         ['route' => 'gudang.tambah_stok', 'icon' => 'fa-warehouse', 'label' => 'Pergudangan'],

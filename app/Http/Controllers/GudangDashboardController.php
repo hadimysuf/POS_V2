@@ -70,7 +70,7 @@ class GudangDashboardController extends Controller
     public function produk()
     {
         $produk = Produk::all(); // Mengambil semua produk
-        return view('gudang.produk', compact('produk'));
+        
     }
     public function storeBarangMasuk(Request $request)
     {

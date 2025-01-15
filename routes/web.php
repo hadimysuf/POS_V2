@@ -84,7 +84,7 @@ Route::middleware('gudang')->group(function () {
     Route::get('/gudang/produk/masuk', [GudangDashboardController::class, 'create'])->name('gudang.produk.masuk');
     Route::post('/gudang/produk/masuk', [GudangDashboardController::class, 'store'])->name('gudang.produk.store');
     Route::get('/gudang/dashboard', [GudangDashboardController::class, 'index'])->name('gudang.dashboard');
-    Route::get('/gudang/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
+
     // Rute untuk menampilkan halaman input barang masuk
     Route::get('/gudang/masuk', [GudangDashboardController::class, 'showBarangMasuk'])->name('gudang.masuk');
     //rute grafik bulanan
@@ -97,9 +97,19 @@ Route::middleware('gudang')->group(function () {
     //Menampilkan transaksi masuk
     Route::get('/gudang/transaksi', [GudangDashboardController::class, 'daftarTransaksi'])->name('gudang.transaksi');
 
- 
+    //tambah stok
     Route::get('/pergudangan', [GudangDashboardController::class, 'create'])->name('gudang.tambah_stok');
     Route::post('/pergudangan', [GudangDashboardController::class, 'store'])->name('gudang.tambah_stok');
+
+    //tambah produk baru
+    Route::prefix('pergudangan/produk')->name('gudang.produk.')->group(function () {
+        Route::get('/', [PergudanganController::class, 'index'])->name('index'); // Menampilkan daftar produk
+        Route::get('/create', [PergudanganController::class, 'create'])->name('create'); // Form tambah produk
+        Route::post('/', [PergudanganController::class, 'store'])->name('store'); // Simpan produk baru
+        Route::get('/{id}/edit', [PergudanganController::class, 'edit'])->name('edit'); // Form edit produk
+        Route::put('/{id}', [PergudanganController::class, 'update'])->name('update'); // Update produk
+        Route::delete('/{produk}', [PergudanganController::class, 'destroy'])->name('destroy'); // Hapus produk
+    });
 });
 
 
