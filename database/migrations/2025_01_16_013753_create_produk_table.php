@@ -17,7 +17,12 @@ return new class extends Migration
             $table->integer('id_produk', true);
             $table->string('nama_produk', 100);
             $table->integer('harga');
-            $table->integer('jumlah');
+            $table->integer('stok');
+            $table->string('satuan', 50)->nullable();
+            $table->integer('stok_minimum')->default(10);
+            $table->integer('id_kategori')->nullable()->index('id_kategori');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
         });
     }
 

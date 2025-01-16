@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('kategoris', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('produk', function (Blueprint $table) {
+            $table->foreign(['id_kategori'], 'produk_ibfk_1')->references(['id_kategori'])->on('kategori')->onUpdate('CASCADE')->onDelete('SET NULL');
         });
     }
 
@@ -26,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kategoris');
+        Schema::table('produk', function (Blueprint $table) {
+            $table->dropForeign('produk_ibfk_1');
+        });
     }
 };

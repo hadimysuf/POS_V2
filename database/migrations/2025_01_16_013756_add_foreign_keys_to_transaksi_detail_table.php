@@ -14,10 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('transaksi_detail', function (Blueprint $table) {
-            $table->foreign(['id_transaksi'], 'transaksi_detail_ibfk_1')->references(['id_transaksi'])->on('transaksi');
-            $table->foreign(['id_transaksi'], 'fk_transaksi')->references(['id_transaksi'])->on('transaksi');
-            $table->foreign(['id_produk'], 'transaksi_detail_ibfk_2')->references(['id_produk'])->on('produk');
-            $table->foreign(['id_produk'], 'fk_produk')->references(['id_produk'])->on('produk');
+            $table->foreign(['id_transaksi'], 'transaksi_detail_ibfk_1')->references(['id_transaksi'])->on('transaksi')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign(['id_produk'], 'transaksi_detail_ibfk_2')->references(['id_produk'])->on('produk')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -30,9 +28,7 @@ return new class extends Migration
     {
         Schema::table('transaksi_detail', function (Blueprint $table) {
             $table->dropForeign('transaksi_detail_ibfk_1');
-            $table->dropForeign('fk_transaksi');
             $table->dropForeign('transaksi_detail_ibfk_2');
-            $table->dropForeign('fk_produk');
         });
     }
 };
