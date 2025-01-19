@@ -15,6 +15,7 @@ use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\PergudanganController;
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\TransaksiHistoryAdmin;
+use App\Http\Controllers\DataPenjualanController;
 
 // Login Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -38,7 +39,18 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/history-{id}', [TransaksiHistoryAdmin::class, 'show'])->name('transaksi.show');
     Route::get('/admin/history/print-{date}', [TransaksiHistoryAdmin::class, 'print'])->name('admin.history.print');
     Route::get('admin/history/printByMonthYearWebp/{month}/{year}', [TransaksiHistoryAdmin::class, 'printByMonthYear'])->name('admin.history.printMonth');
+    Route::get('/admin/data-penjualan', [AdminDashboardController::class, 'dataPenjualan'])->name('admin.dataPenjualan');
+    Route::get('/admin/data-penjualan', [DataPenjualanController::class, 'index'])->name('admin.dataPenjualan');
+    Route::get('/admin/data_penjualan', [DataPenjualanController::class, 'index'])->name('data_penjualan');
+    Route::get('/admin/data_penjualan/filter', [DataPenjualanController::class, 'filter'])->name('data_penjualan.filter');
+    Route::get('/data-penjualan/cetak', [DataPenjualanController::class, 'cetak'])->name('data-penjualan.cetak');
+    Route::get('/data-penjualan', [DataPenjualanController::class, 'index'])->name('data.penjualan');
+    Route::get('/data-penjualan/filter', [DataPenjualanController::class, 'filter'])->name('data-penjualan.filter');
+    Route::get('/data-penjualan', [DataPenjualanController::class, 'index'])->name('data_penjualan.index');
+    Route::get('/data-penjualan/filter', [DataPenjualanController::class, 'filter'])->name('data_penjualan.filter');
+    Route::get('/data-penjualan/cetak', [DataPenjualanController::class, 'cetak'])->name('data_penjualan.cetak');
 });
+
 
 // Kasir Routes
 Route::middleware('kasir')->group(function () {

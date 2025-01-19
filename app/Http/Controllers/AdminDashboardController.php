@@ -67,4 +67,27 @@ class AdminDashboardController extends Controller
 
         return redirect()->route('admin.produk')->with('success', 'Produk berhasil ditambahkan!');
     }
+
+    public function dataPenjualan()
+    {
+        // Produk paling laku
+        $produkPalingLaku = DB::table('produk')
+            ->join('transaksi_detail', 'produk.id_produk', '=', 'transaksi_detail.id_produk')
+            ->select('produk.nama_produk', DB::raw('SUM(transaksi_detail.jumlah) as jumlah_terjual'))
+            ->groupBy('produk.id_produk', 'produk.nama_produk')
+            ->orderByDesc('jumlah_terjual')
+            ->take(5) // Ambil 5 produk paling laku
+            ->get();
+
+        // Produk sedikit terjual
+        $produkSedikitTerjual = DB::table('produk')
+            ->join('transaksi_detail', 'produk.id_produk', '=', 'transaksi_detail.id_produk')
+            ->select('produk.nama_produk', DB::raw('SUM(transaksi_detail.jumlah) as jumlah_terjual'))
+            ->groupBy('produk.id_produk', 'produk.nama_produk')
+            ->orderBy('jumlah_terjual')
+            ->take(5) // Ambil 5 produk sedikit terjual
+            ->get();
+
+        return view('admin.data_penjualan', compact('produkPalingLaku', 'produkSedikitTerjual'));
+    }
 }

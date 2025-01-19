@@ -29,6 +29,14 @@
             </a>
         </li>
         <li>
+            <a class="text-decoration-none {{ Request::is('admin/dataPenjualan*') ? 'active' : '' }}"
+                href="{{ route('admin.dataPenjualan') }}">
+                <i class="fa-solid fa-list-check"></i>
+                <p>Data Penjualan</p>
+            </a>
+        </li>
+        
+        <li>
             <a class="text-decoration-none {{ Request::is('admin/history*') ? 'active' : '' }}"
                 href="{{ route('history.index') }}">
                 <i class="fa-solid fa-box"></i>
