@@ -7,36 +7,31 @@ use Illuminate\Support\Facades\DB;
 
 class DataPenjualanController extends Controller
 {
-    /**
-     * Tampilkan halaman data penjualan dengan default data produk terlaris dan kurang laku.
-     */
     public function index(Request $request)
     {
         // Ambil tanggal dari filter
         $startDate = $request->input('start_date', now()->startOfMonth()->toDateString());
         $endDate = $request->input('end_date', now()->toDateString());
 
-        // Produk terlaris berdasarkan filter tanggal
+        // Produk paling laris (hanya satu produk)
         $dataTerlaris = DB::table('transaksi_detail')
             ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
             ->select('produk.nama_produk', DB::raw('SUM(transaksi_detail.jumlah) as total_terjual'))
             ->whereBetween('transaksi_detail.created_at', [$startDate, $endDate])
             ->groupBy('produk.nama_produk')
             ->orderByDesc('total_terjual')
-            ->take(5) // Ambil 5 produk terlaris
-            ->get();
+            ->first(); // Ambil produk pertama
 
-        // Produk kurang laku berdasarkan filter tanggal
+        // Produk paling kurang laku (hanya satu produk)
         $dataKurangLaku = DB::table('transaksi_detail')
             ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
             ->select('produk.nama_produk', DB::raw('SUM(transaksi_detail.jumlah) as total_terjual'))
             ->whereBetween('transaksi_detail.created_at', [$startDate, $endDate])
             ->groupBy('produk.nama_produk')
             ->orderBy('total_terjual', 'asc')
-            ->take(5) // Ambil 5 produk kurang laku
-            ->get();
+            ->first(); // Ambil produk pertama
 
-        // Detail produk berdasarkan tanggal
+        // Detail penjualan berdasarkan filter
         $detailProduk = DB::table('transaksi_detail')
             ->join('produk', 'transaksi_detail.id_produk', '=', 'produk.id_produk')
             ->select('produk.nama_produk', DB::raw('DATE(transaksi_detail.created_at) as tanggal_penjualan'), DB::raw('SUM(transaksi_detail.jumlah) as total_per_tanggal'))
@@ -47,6 +42,7 @@ class DataPenjualanController extends Controller
 
         return view('admin.data_penjualan', compact('dataTerlaris', 'dataKurangLaku', 'detailProduk', 'startDate', 'endDate'));
     }
+
 
     public function filter(Request $request)
     {

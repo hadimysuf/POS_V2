@@ -5,7 +5,7 @@
     <h1 class="text-center my-4">Data Penjualan</h1>
 
     <!-- Filter Tanggal -->
-    <form method="GET" action="{{ route('data-penjualan.index') }}" class="mb-4">
+    <form method="GET" action="{{ route('data_penjualan.index') }}" class="mb-4">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
@@ -26,42 +26,46 @@
     </form>
 
     <!-- Produk Terlaris -->
-    <h2>Produk Terlaris</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nama Produk</th>
-                <th>Total Terjual</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($dataTerlaris as $produk)
+    <h2>Produk Paling Laris</h2>
+    @if ($dataTerlaris)
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ $produk->nama_produk }}</td>
-                    <td>{{ $produk->total_terjual }}</td>
+                    <th>Nama Produk</th>
+                    <th>Total Terjual</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $dataTerlaris->nama_produk }}</td>
+                    <td>{{ $dataTerlaris->total_terjual }}</td>
+                </tr>
+            </tbody>
+        </table>
+    @else
+        <p>Tidak ada data produk terlaris dalam rentang waktu ini.</p>
+    @endif
 
     <!-- Produk Kurang Laku -->
-    <h2>Produk Kurang Laku</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nama Produk</th>
-                <th>Total Terjual</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($dataKurangLaku as $produk)
+    <h2>Produk Paling Kurang Laku</h2>
+    @if ($dataKurangLaku)
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ $produk->nama_produk }}</td>
-                    <td>{{ $produk->total_terjual }}</td>
+                    <th>Nama Produk</th>
+                    <th>Total Terjual</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ $dataKurangLaku->nama_produk }}</td>
+                    <td>{{ $dataKurangLaku->total_terjual }}</td>
+                </tr>
+            </tbody>
+        </table>
+    @else
+    <p>Tidak ada data produk kurang laku dalam rentang waktu ini.</p>
+    @endif
 
     <!-- Detail Penjualan -->
     <h2>Detail Penjualan</h2>
@@ -91,6 +95,6 @@
     </table>
 
     <!-- Tombol Cetak -->
-    <a href="{{ route('data-penjualan.cetak', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}" class="btn btn-primary" target="_blank">Cetak</a>
+    <a href="{{ route('data_penjualan.cetak', ['start_date' => request('start_date'), 'end_date' => request('end_date')]) }}" class="btn btn-primary" target="_blank">Cetak</a>
 </div>
 @endsection
