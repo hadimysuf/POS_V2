@@ -20,7 +20,6 @@ class RegisterController extends Controller
             'nama_user' => 'required|string|max:100',
             'username' => 'required|email|unique:users,username',
             'password' => 'required|string|min:6',
-            'role_id' => 'required|exists:role,id_role',
             'nomor_handphone' => 'required|string|regex:/^\+62[0-9]{8,12}$/',
             'alamat' => 'required|string|regex:/^Jl\..*/',
         ]);
@@ -34,6 +33,14 @@ class RegisterController extends Controller
             'nomor_handphone' => $request->nomor_handphone,
             'alamat' => $request->alamat,
         ]);
+        // User::create([
+        //     'nama_user' => $request->nama_user,
+        //     'username' => $request->username,
+        //     'password' => $request->password,
+        //     'role_id' => 2,
+        //     'nomor_handphone' => $request->nomor_handphone,
+        //     'alamat' => $request->alamat,
+        // ]);
 
         return redirect()->route('login')->with('success', 'User berhasil didaftarkan!, silahkan login kembali');
     }

@@ -11,7 +11,6 @@
                     <th>ID Transaksi</th>
                     <th>Tanggal & Waktu</th>
                     <th>Nomor Transaksi</th>
-                    <th>Total</th>
                     <th>Nama User</th>
                 </tr>
             </thead>
@@ -21,7 +20,6 @@
                         <td>{{ $transaksi->id_transaksi }}</td>
                         <td>{{ $transaksi->tanggal_waktu }}</td>
                         <td>{{ $transaksi->nomor_transaksi }}</td>
-                        <td>{{ number_format($transaksi->total, 0, ',', '.') }}</td>
                         <td>{{ $transaksi->nama_user ?? '-' }}</td>
                     </tr>
                 @endforeach

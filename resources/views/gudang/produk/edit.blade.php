@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <h1>Edit Produk</h1>
-        <form action="{{ route('produk.update', $produk) }}" method="POST">
+        <form action="{{ route('gudang.produk.update', $produk) }}" method="POST">
             @csrf
             @method('PUT')
             <!-- Nama Produk -->
@@ -47,7 +47,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-primary">Perbarui</button>
-            <a href="{{ route('produk.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('gudang.produk.index') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
 @endsection

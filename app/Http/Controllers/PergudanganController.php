@@ -17,7 +17,20 @@ class PergudanganController extends Controller
 {
     public function index()
     {
-        $produk = Produk::with('kategori')->get();
+        $produk = Produk::with('kategori')
+            ->withSum(['transaksiDetail as stok_keluar' => function ($query) {
+                $query->whereHas('transaksi', function ($q) {
+                    $q->where('tipe', 'keluar'); // Transaksi keluar
+                });
+            }], 'jumlah')
+            ->get();
+
+        // Hitung stok masuk (stok total - stok keluar)
+        // $produk->map(function ($item) {
+        //     $item->$item->stok - ($item->stok_keluar ?? 0), 
+        //     return $item;
+        // });
+
         return view('gudang.produk', compact('produk'));
     }
 
