@@ -15,6 +15,7 @@ use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\PergudanganController;
 use App\Http\Controllers\ReturController;
 use App\Http\Controllers\TransaksiHistoryAdmin;
+use App\Http\Controllers\DataPenjualanController;
 
 // Login Routes
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -38,7 +39,18 @@ Route::middleware('admin')->group(function () {
     Route::get('/admin/history-{id}', [TransaksiHistoryAdmin::class, 'show'])->name('transaksi.show');
     Route::get('/admin/history/print-{date}', [TransaksiHistoryAdmin::class, 'print'])->name('admin.history.print');
     Route::get('admin/history/printByMonthYearWebp/{month}/{year}', [TransaksiHistoryAdmin::class, 'printByMonthYear'])->name('admin.history.printMonth');
+    Route::get('/admin/data-penjualan', [AdminDashboardController::class, 'dataPenjualan'])->name('admin.dataPenjualan');
+    Route::get('/admin/data-penjualan', [DataPenjualanController::class, 'index'])->name('admin.dataPenjualan');
+    Route::get('/admin/data_penjualan', [DataPenjualanController::class, 'index'])->name('data_penjualan');
+    Route::get('/admin/data_penjualan/filter', [DataPenjualanController::class, 'filter'])->name('data_penjualan.filter');
+    Route::get('/data-penjualan/cetak', [DataPenjualanController::class, 'cetak'])->name('data-penjualan.cetak');
+    Route::get('/data-penjualan', [DataPenjualanController::class, 'index'])->name('data.penjualan');
+    Route::get('/data-penjualan/filter', [DataPenjualanController::class, 'filter'])->name('data-penjualan.filter');
+    Route::get('/data-penjualan', [DataPenjualanController::class, 'index'])->name('data_penjualan.index');
+    Route::get('/data-penjualan/filter', [DataPenjualanController::class, 'filter'])->name('data_penjualan.filter');
+    Route::get('/data-penjualan/cetak', [DataPenjualanController::class, 'cetak'])->name('data_penjualan.cetak');
 });
+
 
 // Kasir Routes
 Route::middleware('kasir')->group(function () {
@@ -84,7 +96,7 @@ Route::middleware('gudang')->group(function () {
     Route::get('/gudang/produk/masuk', [GudangDashboardController::class, 'create'])->name('gudang.produk.masuk');
     Route::post('/gudang/produk/masuk', [GudangDashboardController::class, 'store'])->name('gudang.produk.store');
     Route::get('/gudang/dashboard', [GudangDashboardController::class, 'index'])->name('gudang.dashboard');
-    Route::get('/gudang/produk', [GudangDashboardController::class, 'produk'])->name('gudang.produk');
+
     // Rute untuk menampilkan halaman input barang masuk
     Route::get('/gudang/masuk', [GudangDashboardController::class, 'showBarangMasuk'])->name('gudang.masuk');
     //rute grafik bulanan
@@ -97,9 +109,19 @@ Route::middleware('gudang')->group(function () {
     //Menampilkan transaksi masuk
     Route::get('/gudang/transaksi', [GudangDashboardController::class, 'daftarTransaksi'])->name('gudang.transaksi');
 
- 
+    //tambah stok
     Route::get('/pergudangan', [GudangDashboardController::class, 'create'])->name('gudang.tambah_stok');
     Route::post('/pergudangan', [GudangDashboardController::class, 'store'])->name('gudang.tambah_stok');
+
+    //tambah produk baru
+    Route::prefix('pergudangan/produk')->name('gudang.produk.')->group(function () {
+        Route::get('/', [PergudanganController::class, 'index'])->name('index'); // Menampilkan daftar produk
+        Route::get('/create', [PergudanganController::class, 'create'])->name('create'); // Form tambah produk
+        Route::post('/', [PergudanganController::class, 'store'])->name('store'); // Simpan produk baru
+        Route::get('/{id}/edit', [PergudanganController::class, 'edit'])->name('edit'); // Form edit produk
+        Route::put('/{id}', [PergudanganController::class, 'update'])->name('update'); // Update produk
+        Route::delete('/{produk}', [PergudanganController::class, 'destroy'])->name('destroy'); // Hapus produk
+    });
 });
 
 

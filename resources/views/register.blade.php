@@ -50,7 +50,7 @@
                                             class="form-control form-control-lg @error('username') is-invalid @enderror"
                                             value="{{ old('username') }}" required placeholder="Username">
                                         <label class="text-muted">
-                                            <i class="fa-solid fa-at me-2"></i>Username
+                                            <i class="fa-solid fa-at me-2"></i>@Username
                                         </label>
                                         @error('username')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -77,7 +77,7 @@
                                     <div class="form-floating mb-4">
                                         <select class="form-select form-control-lg @error('role_id') is-invalid @enderror"
                                             id="role_id" name="role_id" required>
-                                            <option value="">Select Role</option>
+                                            <option value="">Pilih Role</option>
                                             @foreach ($roles as $role)
                                                 <option value="{{ $role->id_role }}"
                                                     {{ old('role_id') == $role->id_role ? 'selected' : '' }}>
@@ -101,10 +101,10 @@
                                             class="form-control form-control-lg @error('nomor_handphone') is-invalid @enderror"
                                             value="{{ old('nomor_handphone') }}" required placeholder="(+62)8">
                                         <label class="text-muted">
-                                            <i class="fa-solid fa-phone me-2"></i>Phone Number
+                                            <i class="fa-solid fa-phone me-2"></i>Nomor Handphone
                                         </label>
                                         @error('nomor_handphone')
-                                            <div class="invalid-feedback">*Harus 8-12 digits diawali dengan(+62)</div>
+                                            <div class="invalid-feedback">*format (+62)8 angka [0-9]{8,12}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -119,32 +119,32 @@
                                             <i class="fa-solid fa-location-dot me-2"></i>Alamat
                                         </label>
                                         @error('alamat')
-                                            <div class="invalid-feedback">*Harus diawali dengan "Jl."</div>
+                                            <div class="invalid-feedback">*Harus di awali Jl.</div>
                                         @enderror
                                     </div>
                                 </div>
-
-                                <!-- Submit Button -->
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-4 fw-bold">
-                                        <i class="fa-solid fa-user-plus me-2"></i>Register
-                                    </button>
-                                    <div class="text-center">
-                                        <p class="text-muted mb-0" style="color: rgba(255, 255, 255, 0.7) !important">
-                                            Sudah Punya akun?
-                                            <a href="{{ route('login') }}"
-                                                class="text-decoration-none fw-bold gradient-text">
-                                                Masuk
-                                            </a>
-                                        </p>
-                                    </div>
-                                </div>
                             </div>
-                        </form>
+
+                        <!-- Submit Button -->
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-4 fw-bold">
+                                <i class="fa-solid fa-user-plus me-2"></i>Register
+                            </button>
+                            <div class="text-center">
+                                <p class="text-muted mb-0" style="color: rgba(255, 255, 255, 0.7) !important">
+                                    Sudah Punya akun?
+                                    <a href="{{ route('login') }}" class="text-decoration-none fw-bold gradient-text">
+                                        Masuk
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
     <style>
@@ -201,7 +201,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             transition: all 0.3s ease;
         }
-        
+
         .alert-danger {
             background: rgba(220, 53, 69, 0.1) !important;
             border: 1px solid rgba(220, 53, 69, 0.2) !important;

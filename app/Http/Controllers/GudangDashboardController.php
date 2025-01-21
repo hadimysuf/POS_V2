@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use App\Models\Transaksi;
+use App\Models\TransaksiDetail;
 use App\Models\Kategori;
 use Illuminate\Support\Facades\DB;
 
@@ -70,18 +71,18 @@ class GudangDashboardController extends Controller
     public function produk()
     {
         $produk = Produk::all(); // Mengambil semua produk
-        return view('gudang.produk', compact('produk'));
+
     }
     public function storeBarangMasuk(Request $request)
     {
-        $validatedData = $request->validate([
-            'id_produk' => 'nullable|exists:produk,id_produk',
-            'nama_produk' => 'nullable|required_if:id_produk,new|string|max:100',
-            'harga' => 'nullable|required_if:id_produk,new|numeric|min:0',
-            'stok_minimum' => 'nullable|required_if:id_produk,new|integer|min:0',
-            'id_kategori' => 'nullable|required_if:id_produk,new|exists:kategori,id_kategori',
-            'jumlah' => 'required|integer|min:1',
-        ]);
+        // $validatedData = $request->validate([
+        //     'id_produk' => 'nullable|exists:produk,id_produk',
+        //     'nama_produk' => 'nullable|required_if:id_produk,new|string|max:100',
+        //     'harga' => 'nullable|required_if:id_produk,new|numeric|min:0',
+        //     'stok_minimum' => 'nullable|required_if:id_produk,new|integer|min:0',
+        //     'id_kategori' => 'nullable|required_if:id_produk,new|exists:kategori,id_kategori',
+        //     'jumlah' => 'required|integer|min:1',
+        // ]);
 
         // Jika produk baru
         if ($request->id_produk === 'new') {
@@ -106,8 +107,7 @@ class GudangDashboardController extends Controller
             'tanggal_waktu' => now(),
             'id_produk' => $idProduk,
             'jumlah' => $request->jumlah,
-            'jenis_transaksi' => 'masuk',
-            'created_by' => auth()->user()->id ?? null, // Pastikan session login aktif
+            'tipe' => 'masuk',
         ]);
 
         return redirect()->route('gudang.produk.masuk')->with('success', 'Barang masuk berhasil disimpan!');
@@ -133,7 +133,6 @@ class GudangDashboardController extends Controller
             ->orderBy('id_transaksi')
             ->where('tipe', 'keluar')
             ->get();
-
     }
     public function getMonthlyTransactions()
     {
@@ -151,15 +150,17 @@ class GudangDashboardController extends Controller
     public function daftarTransaksi()
     {
         // Ambil semua transaksi masuk
+        // Mengambil data transaksi detail yang terkait dengan transaksi tipe 'masuk'
+        // $transaksiMasukDetail = TransaksiDetail::join('transaksi', 'transaksi_detail.id_transaksi', '=', 'transaksi.id_transaksi')
+        //     ->where('transaksi.tipe', 'masuk')
+        //     ->select('transaksi_detail.*', 'transaksi.id_transaksi as transaksi_id') // Alias kolom jika perlu
+        //     ->get();
+
+        // Ambil semua transaksi keluar
         $transaksiMasuk = Transaksi::where('tipe', 'masuk')
             ->orderBy('tanggal_waktu', 'desc')
             ->get();
 
-        // Ambil semua transaksi keluar
-        $transaksiKeluar = Transaksi::where('tipe', 'keluar')
-            ->orderBy('tanggal_waktu', 'desc')
-            ->get();
-
-        return view('gudang.transaksi', compact('transaksiMasuk', 'transaksiKeluar'));
+        return view('gudang.transaksi', compact('transaksiMasuk'));
     }
 }

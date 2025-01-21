@@ -29,6 +29,14 @@
             </a>
         </li>
         <li>
+            <a class="text-decoration-none {{ Request::is('admin/data-penjualan*') ? 'active' : '' }}"
+                href="{{ route('admin.dataPenjualan') }}">
+                <i class="fa-solid fas fa-money-bill-wave"></i>
+                <span>Data Penjualan</span>
+            </a>
+        </li>
+        
+        <li>
             <a class="text-decoration-none {{ Request::is('admin/history*') ? 'active' : '' }}"
                 href="{{ route('history.index') }}">
                 <i class="fa-solid fa-box"></i>

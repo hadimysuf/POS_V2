@@ -24,16 +24,6 @@
             </div>
         </div>
 
-        <h3>Menu</h3>
-        <div class="row">
-            <div class="col-md-4">
-                <a href="{{ route('gudang.produk') }}" class="btn btn-primary btn-block">Daftar Produk</a>
-            </div>
-            <div class="col-md-4">
-                <a href="{{ route('gudang.produk.masuk') }}" class="btn btn-secondary btn-block">Input Barang Masuk</a>
-            </div>
-        </div>
-
         <h3 class="mt-4">Produk dengan Stok Rendah</h3>
         @if ($stokRendah->isEmpty())
             <p>Tidak ada produk dengan stok rendah.</p>

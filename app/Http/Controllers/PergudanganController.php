@@ -4,41 +4,85 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produk;
-use App\Models\PergudanganTransaksi;
+use App\Models\Kategori;
+
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Produk;
+use App\Models\Kategori;
 
 class PergudanganController extends Controller
 {
-    // Menampilkan halaman daftar transaksi gudang
     public function index()
     {
-        $transaksi = PergudanganTransaksi::with('produk')->get();
-        return view('gudang.index', compact('transaksi'));
+        $produk = Produk::with('kategori')
+            ->withSum(['transaksiDetail as stok_keluar' => function ($query) {
+                $query->whereHas('transaksi', function ($q) {
+                    $q->where('tipe', 'keluar'); // Transaksi keluar
+                });
+            }], 'jumlah')
+            ->get();
+
+        // Hitung stok masuk (stok total - stok keluar)
+        // $produk->map(function ($item) {
+        //     $item->$item->stok - ($item->stok_keluar ?? 0), 
+        //     return $item;
+        // });
+
+        return view('gudang.produk', compact('produk'));
     }
 
-    // Menampilkan form untuk menambah transaksi gudang
     public function create()
     {
-        $produk = Produk::all();
-        return view('gudang.create', compact('produk'));
+        $kategori = Kategori::all();
+        return view('gudang.produk.create', compact('kategori'));
     }
 
-    // Menyimpan transaksi baru
     public function store(Request $request)
     {
-        $request->validate([
-            'id_produk' => 'required|exists:produk,id_produk',
-            'jumlah' => 'required|integer|min:1',
-            'tanggal' => 'required|date',
-            'jenis_transaksi' => 'required|string|in:barang masuk,barang keluar',
+        $validatedData = $request->validate([
+            'id_kategori' => 'required|exists:kategori,id_kategori',
+            'nama_produk' => 'required|string|max:100',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:0',
+            'satuan' => 'required|string|max:50',
+            'stok_minimum' => 'nullable|required_if:id_produk,new|integer|min:0',
         ]);
 
-        PergudanganTransaksi::create([
-            'id_produk' => $request->id_produk,
-            'jumlah' => $request->jumlah,
-            'tanggal' => $request->tanggal,
-            'jenis_transaksi' => $request->jenis_transaksi,
+        Produk::create($validatedData);
+
+        return redirect()->route('gudang.produk.index')->with('success', 'Produk berhasil ditambahkan!');
+    }
+
+    public function edit($id)
+    {
+        $produk = Produk::findOrFail($id);
+        $kategori = Kategori::all();
+        return view('gudang.produk.edit', compact('produk', 'kategori'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'id_kategori' => 'required|exists:kategori,id_kategori',
+            'nama_produk' => 'required|string|max:100',
+            'harga' => 'required|numeric|min:0',
+            'stok' => 'required|integer|min:1',
+            'satuan' => 'required|string|max:50',
         ]);
 
-        return redirect()->route('pergudangan.index')->with('success', 'Transaksi berhasil ditambahkan.');
+        $produk = Produk::findOrFail($id);
+        $produk->update($validatedData);
+
+        return redirect()->route('gudang.produk.index')->with('success', 'Produk berhasil diperbarui!');
+    }
+
+    public function destroy($id)
+    {
+        $produk = Produk::findOrFail($id);
+        $produk->delete();
+        return redirect()->route('gudang.produk.index')->with('success', 'Produk berhasil dihapus!');
     }
 }
