@@ -14,7 +14,7 @@ class Produk extends Model
     protected $primaryKey = 'id_produk'; // Kolom primary key jika berbeda dari 'id'
 
     // Kolom yang dapat diisi (fillable)
-    protected $fillable = ['nama_produk', 'harga', 'stok', 'id_kategori', 'satuan', 'jumlah'];
+    protected $fillable = ['nama_produk', 'harga', 'stok', 'id_kategori', 'satuan', 'jumlah', 'stok_minimum'];
 
     // Relasi ke tabel kategori
     public function kategori()

@@ -116,7 +116,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($transaksi->details as $item)
+                @foreach($transaksi->transaksiDetail as $item)
                     <tr>
                         <td>{{ $item->produk->nama_produk }}</td>
                         <td class="center">{{ $item->jumlah }}</td>

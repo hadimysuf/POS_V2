@@ -24,11 +24,12 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'id_kategori' => 'required|exists:kategori,id_kategori',
             'nama_produk' => 'required|string|max:100',
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:1',
+            'stok_minimum' => 'required|integer|min:1',
             'satuan' => 'required|string|max:50',
         ]);
 
@@ -38,6 +39,7 @@ class ProductController extends Controller
             'nama_produk' => $request->nama_produk,
             'harga' => $request->harga,
             'stok' => $request->stok,
+            'stok_minimum' => $request->stok_minimum,
             'satuan' => $request->satuan,
 
         ]);
@@ -61,11 +63,12 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         // Validasi input form
-        $validatedData = $request->validate([
+        $request->validate([
             'id_kategori' => 'required|exists:kategori,id_kategori',
             'nama_produk' => 'required|string|max:100',
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:1',
+            'stok_minimum' => 'required|integer|min:1',
             'satuan' => 'required|string|max:50',
         ]);
 
@@ -78,6 +81,7 @@ class ProductController extends Controller
             'nama_produk' => $request->nama_produk,
             'harga' => $request->harga,
             'stok' => $request->stok,
+            'stok_minimum' => $request->stok_minimum,
             'satuan' => $request->satuan,
         ]);
 

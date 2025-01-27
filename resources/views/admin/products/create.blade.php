@@ -23,6 +23,12 @@
                 <input type="number" name="stok" class="form-control input-effect" required>
             </div>
 
+            <!-- Stok Minimum Produk -->
+            <div class="mb-3">
+                <label for="stok_minimum" class="form-label">Stok Minimum</label>
+                <input type="number" name="stok_minimum" class="form-control input-effect" required>
+            </div>
+
             <!-- Satuan Produk -->
             <div class="mb-3">
                 <label for="satuan" class="form-label">Satuan</label>

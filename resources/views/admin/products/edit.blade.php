@@ -27,6 +27,13 @@
                    value="{{ $produk->stok }}" required>
         </div>
 
+        <!-- Stok -->
+        <div class="mb-3">
+            <label for="stok_minimum" class="form-label">Stok Minimum</label>
+            <input type="number" class="form-control" id="stok_minimum" name="stok_minimum" 
+                   value="{{ $produk->stok_minimum }}" required>
+        </div>
+
         <!-- Satuan -->
         <div class="mb-3">
             <label for="satuan" class="form-label">Satuan</label>

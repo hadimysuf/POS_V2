@@ -133,7 +133,7 @@
                         <option class="text-dark" value="">Pilih Produk</option>
                         @foreach ($produk as $p)
                             <option class="text-dark" value="{{ $p->id_produk }}">{{ $p->nama_produk }} - Rp
-                                {{ number_format($p->harga, 0, ',', '.') }}</option>
+                                {{ number_format($p->harga, 0, ',', '.') }} (stok : {{ $p->stok }})</option>
                         @endforeach
                     </select>
                     <input type="number" name="jumlah" class="form-control quantity-control" placeholder="Jumlah" required
@@ -177,8 +177,7 @@
                                         </td>
                                         <td>Rp {{ number_format($item['harga'] * $item['jumlah'], 0, ',', '.') }}</td>
                                         <td>
-                                            <a href="{{ route('kasir.removeFromCart', $id) }}"
-                                                class="btn btn-danger"
+                                            <a href="{{ route('kasir.removeFromCart', $id) }}" class="btn btn-danger"
                                                 onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?')">
                                                 <i class="fas fa-trash">hapus</i>
                                             </a>
@@ -267,6 +266,21 @@
             });
         }
     </script>
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: '{{ session('error') }}',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#ff3e3e',
+                    background: '#1e2832',
+                    color: '#ffffff'
+                });
+            });
+        </script>
+    @endif
 
     @if (session('success'))
         <script>

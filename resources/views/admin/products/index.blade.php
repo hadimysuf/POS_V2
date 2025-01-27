@@ -122,6 +122,7 @@
                             <th>Nama Produk</th>
                             <th>Harga</th>
                             <th>Stok</th>
+                            <th>Min</th>
                             <th>Satuan</th>
                             <th>Kategori</th>
                             <th width="150">Aksi</th>
@@ -134,6 +135,7 @@
                                 <td>{{ $product->nama_produk }}</td>
                                 <td>Rp {{ number_format($product->harga, 0, ',', '.') }}</td>
                                 <td>{{ $product->stok }}</td>
+                                <td>{{ $product->stok_minimum }}</td>
                                 <td>{{ $product->satuan }}</td>
                                 <td>{{ $product->kategori ? $product->kategori->nama_kategori : '-' }}</td>
                                 <td>

@@ -96,7 +96,14 @@ class KasirDashboardController extends Controller
                 'total' => $item['harga'] * $item['jumlah'],
             ]);
 
-            Produk::where('id_produk', $id_produk)->decrement('stok', $item['jumlah']);
+            $produk = Produk::findOrFail($id_produk);
+
+            if ($produk->stok >= $item['jumlah']) {
+                Produk::where('id_produk', $id_produk)->decrement('stok', $item['jumlah']);
+            } else {
+                $message = $produk->nama_produk . ' - Stok Baju tidak mencukupi!';
+                return redirect()->back()->with('error', $message);
+            }
         }
 
         session()->forget('cart');
@@ -132,7 +139,7 @@ class KasirDashboardController extends Controller
     // Fungsi untuk menampilkan struk
     public function printReceipt($id)
     {
-        $transaksi = Transaksi::with('details.produk')->findOrFail($id);
+        $transaksi = Transaksi::with('transaksiDetail')->findOrFail($id);
         return view('kasir.receipt', compact('transaksi'));
     }
     public function showTransactions()
